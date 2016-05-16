@@ -1,0 +1,252 @@
+
+html {
+
+    margin : 0px auto 0px auto;
+    padding : 0;
+}
+body {
+    margin : auto;
+    padding : auto;
+    /*background-color:#AACCDD;*/
+}
+
+body#popup {
+    margin : auto;
+    padding : 0;
+    background-color:#AACCDD;
+}
+
+
+/************************************************
+ * tableau
+ ************************************************/
+caption
+{
+	background-color: #babac5;
+	border-color:#7e7e89;
+	font-size : 12pt;
+	font-family: verdana;
+	font-style: normal;
+	font-weight: bold;
+	white-space: nowrap;
+	text-align:center;
+	/*width:266px;*/
+}
+th
+{
+	background-color: #babac5;
+	font-size : 8pt;
+	font-family: verdana;
+	font-style: normal;
+	font-weight: bold;
+	white-space: nowrap;
+	text-align:center;
+	/*width:266px;*/
+}
+
+table{
+	border-radius: 4px;
+	border-spacing: 2px;
+	border-collapse: separate;
+}
+
+table.liste
+{
+	background-color : #e6d001; /*#d2b515;*/ /*#D2DBE9;*/
+	/*border-width:1px;*/
+	/*border-style:solid;*/
+	border-color:#7e7e89;
+	width:95%;
+	margin : 10px auto auto auto; 
+}
+
+tr.entete {
+	color : #000000;
+	background-color: #babac5;
+	font-style: normal;
+	font-weight: bold;
+	text-align: left;
+	font-family: verdana,arial,sans-serif;
+	font-size: 8pt;
+	border-width: 0px;
+}
+
+tr
+{
+	margin-bottom: 0px;
+	margin-right: 0px;
+	margin-left: 0px;
+	margin-top: 0px;
+	padding-bottom: 0px;
+	padding-right: 0px;
+	padding-left: 0px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+}
+
+/* Lignes entête de tableau */
+tr.entete
+{
+	background-color: #babac5;
+	font-size : 8pt;
+	font-family: verdana;
+	font-style: normal;
+	font-weight: bold;
+}
+
+td.lienImage {
+	text-align:center;
+}
+
+.l0 
+{
+	background-color: #b1bfd5;
+}
+tr.l0:hover
+{
+	background-color: #FFFFFF;
+}
+
+.l1 
+{
+	background-color: #d2dbe9;
+}
+tr.l1:hover
+{
+	background-color: #FFFFFF;
+}
+
+th.noStyle {
+}
+
+/************************************************
+ * Balises de mise en page
+ ************************************************/
+
+#titre {
+    margin : 0px auto 0px auto;
+    background-repeat : no-repeat;
+    width : auto;
+    height:auto;
+	background-color:#AACCDD;
+}
+
+div.contenu {
+    background-color: #e5e5e5;
+}
+
+#message {
+	border-radius: 10px;
+	text-align:center;
+	position:absolute;
+	left: 50%;
+	top: 40%;
+	width: 150px;
+	height: 30px;
+	margin-top: -59px;
+	margin-left: -75px;
+	display: none;
+	background-color:#000000;
+	color:#FFFFFF;
+	font-size: 15;
+	padding:20px 30px 20px 30px;
+}
+
+
+#pied
+{
+    background-repeat : no-repeat;
+	float:left;
+    width:100%;
+    background-color:#AACCDD;
+}
+
+
+#tabMenu
+{
+    text-align: center;
+    width: 90%;
+    margin:10px 0px 0px 0px;
+}
+
+/************************************************
+ * formulaire
+ ************************************************/
+table.formulaire {
+	background-color :#D2DBE9;
+	border-width:1px;
+	border-style:solid;
+	border-color:#7e7e89;
+}
+
+table.recherche {
+	background-color :#D2DBE9;
+	border-width:1px;
+	border-style:solid;
+	border-color:#7e7e89;
+	width:auto;
+	margin : 10px auto auto auto;
+}
+
+
+.diffNegative {
+	color:red;
+	font-weight: bold;
+}
+
+.diffPositive{
+	color:green;
+	font-weight: bold;
+}
+
+input {
+	color: #000000;
+	font-family: verdana,arial,sans-serif;
+	font-size: 8pt;
+	border-color: #7e7e8a;
+	border-style: solid;
+	border-width: 1px;
+}
+input.numerique {
+	text-align: right;	
+}
+
+input.bouton, input.quitter {
+	color: #ffffff;
+	font-family: verdana,arial,sans-serif;
+	text-align: center;
+	font-size: 7pt;
+	/*background-color: #92929d;
+	border-color: #9FA0AA #525252 #525252 #9FA0AA;*/
+	background-color: #000000;
+	border-color: #000000 #000000 #8a8674 #8a8674;
+	border-width: 2px;
+	border-style:solid;
+}
+
+input.obligatoire {
+	/*color: #000000;*/
+	background-color: #fac98f;
+	/*text-align: left;
+	font-family: verdana,arial,sans-serif;
+	font-size: 8pt;*/
+	border-color: #7e7e8a;
+	/*border-style: solid;*/
+	border-width: 2px;
+}
+
+select {
+	color: #000000;
+	text-align: left;
+	font-family: verdana,arial,sans-serif;
+	font-size: 8pt;
+	border-color: #7e7e8a;
+	border-style: solid;
+	border-width: 1px;
+	/*-webkit-border-radius:4px;*/
+	border-radius: 4px;
+}
+
+select.obligatoire {
+	background-color: #fac98f;
+}

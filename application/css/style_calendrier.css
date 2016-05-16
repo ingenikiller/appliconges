@@ -1,0 +1,54 @@
+
+/************************************************
+ * Balises de contenu
+ ************************************************/
+
+.jour_ouvre
+{
+	background-color: #FFFFFF;
+}
+.jour_ferme
+{
+	background-color: #A4A4A4;
+}
+
+.jour_ferie
+{
+	background-color: #F5FC2A;
+}
+
+.rtt_jour
+{
+	background-color: #4DFE2A;	
+}
+.rtt_demi
+{
+	/*background-color: #A1FF8E;*/
+	color: white;
+	background: -webkit-repeating-linear-gradient(135deg, #ffffff, #ffffff 5px, #4DFE2A 5px, #4DFE2A 10px);
+	background: repeating-linear-gradient(135deg, #ffffff, #ffffff 5px, #4DFE2A 5px, #4DFE2A 10px);
+}
+
+.conges_jour
+{
+	background-color: #039FD8;	
+}
+.conges_demi
+{
+	/*background-color: #7DDAFC;	*/
+	color: white;
+	background: -webkit-repeating-linear-gradient(135deg, #ffffff, #ffffff 5px, #7DDAFC 5px, #7DDAFC 10px);
+	background: repeating-linear-gradient(135deg, #ffffff, #ffffff 5px, #7DDAFC 5px, #7DDAFC 10px);
+}
+
+.periodeComplete {
+	background-color: #A1FF8E;
+}
+
+.periodeIncomplete {
+	background-color: #FE9A2E;
+}
+
+.periodeTropSaisi {
+	background-color: #FE2E2E;
+}

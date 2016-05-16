@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<domaines>
+	
+		<domaine name="jour">
+			<service name="getListe" classe="GestionJourService" methode="getListe" isPrivee="true" render="json" privee="true"/>
+			<service name="create" classe="GestionJourService" methode="create" isPrivee="true" render="json" privee="true"/>
+			<service name="update" classe="GestionJourService" methode="update" isPrivee="true" render="json" privee="true"/>
+			<service name="delete" classe="GestionJourService" methode="delete" isPrivee="true" render="json" privee="true"/>
+		</domaine>
+		<domaine name="jourferie">
+			<service name="getListe" classe="GestionJourFerieService" methode="getListe" isPrivee="true" render="json" privee="true"/>
+		</domaine>
+		<domaine name="calendrier">
+			<service name="getpage" classe="Factice" methode="fictive" isPrivee="false"  xsl="xsl/calendrier.xsl" privee="false"/>
+		</domaine>
+		<domaine name="periode">
+			<service name="getListe" classe="GestionPeriodeService" render="json" methode="getListe" isPrivee="true"/>
+		</domaine>
+		<domaine name="technique">
+			<service name="login" classe="Login" methode="fictive" isPrivee="false"  xsl="xsl/login.xsl" privee="false"/>
+			<service name="connexion" classe="Login" methode="connexion" isPrivee="false"  xsl="xsl/login.xsl" privee="false"/>
+			<service name="gentables" classe="GenerateurService" methode="create" isPrivee="false"  xsl="xsl/login.xsl" privee="false"/>
+		</domaine>
+		<domaine name="defaut">
+			<service name="defaut" classe="Login" methode="fictive" isPrivee="false"  xsl="xsl/login.xsl" privee="false"/>
+		</domaine>
+	</domaines>
+</configuration>
