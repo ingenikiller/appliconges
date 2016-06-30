@@ -8,11 +8,9 @@
 
 <xsl:template name="Contenu">
 	<section class="row">
-		<!--div class="col-lg-offset-1 col-lg-10"-->
 		<div class="col-sm-8">	
 			<table id="tableauCalendrier" class="formulaire"/>
 		</div>
-	
 		<aside class="col-sm-4">
 			<center>
 				<div id="radio">
@@ -41,23 +39,15 @@
 						<th>Date début</th>
 						<th>Date fin</th>
 						<th>Type conges</th>
-						<th>max</th>
-						<th>saisie</th>
-						<th>pris</th>
+						<th>Disponibles</th>
+						<th>Saisis</th>
+						<th>Pris</th>
 					</tr>
 				</table>
 			</center>	
 		</aside>
-		
-
-			<br/>
-		</section>
-	
-	<!--div id="message"/-->
-
-	<!--center>
-	</center-->	
-
+	</section>
+	<br/>
 </xsl:template>
 
 </xsl:stylesheet>

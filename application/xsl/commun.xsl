@@ -14,7 +14,9 @@
 	<xsl:variable name="USER">
 		<xsl:value-of select="/root/user/login"/>
 	</xsl:variable>
+	
 	<xsl:template name="js.module.sheet"/>
+	
 	<xsl:template name="message">
 		<xsl:param name="label"/>
 		<xsl:param name="param1" select="''"/>
@@ -62,4 +64,5 @@
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
+	
 </xsl:stylesheet>
