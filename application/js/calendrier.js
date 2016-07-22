@@ -170,7 +170,7 @@ function ajouteJourMois(ligne, annee, mois){
 }*/
 
 /*********************************
- * effectue un pad à gauche ur un
+ * effectue un pad à gauche sur un
  * nombre
  *********************************/
 function pad(n, width, z) {
@@ -282,7 +282,7 @@ function alimentePeriodes() {
 		if(tabJson[i].associatedObjet[0].tabResult[0] != null) {
 			totalPris = Number(tabJson[i].associatedObjet[0].tabResult[0].total);
 		}
-		
+		var reste = totalDispo - totalPositionne;
 		var styleRow='';
 		if(totalDispo == totalPositionne) {
 			styleRow='periodeComplete';
@@ -297,6 +297,7 @@ function alimentePeriodes() {
 		
 		if( $("#totalPositionne"+debut).length) {
 			$("#totalPositionne"+debut).text(tabJson[i].total);
+			$("#reste"+debut).text(reste);
 			$('#periode'+debut).removeClass();
 			$('#periode'+debut).addClass(styleRow);
 		} else {
@@ -307,6 +308,7 @@ function alimentePeriodes() {
 			row.append($('<td align="right" id="'+"totalDispo"+debut+'"/>').text(totalDispo));
 			row.append($('<td align="right" id="'+"totalPositionne"+debut+'"/>').text(totalPositionne));
 			row.append($('<td align="right"/>').text(totalPris));
+			row.append($('<td align="right" id="'+"reste"+debut+'"/>').text(reste));
 			$("#tableauPeriodes").append(row);
 		}
 		
@@ -361,4 +363,22 @@ function alimenteJoursFeries() {
 		$( "#"+caseId ).removeClass();//'jour_ouvre');//.css( "background-color", "grey" );
 		$( "#"+caseId ).addClass('jour_ferie');
 	}
+}
+
+function activeF1(event){
+	bloqueTouchesFonctions(event);
+	$('input:radio[name="radioChoixType"][value="inactif"]').click();
+	return false;
+}
+
+function activeF2(event){
+	bloqueTouchesFonctions(event);
+	$('input:radio[name="radioChoixType"][value="rtt"]').click();
+	return false;
+}
+function activeF3(event){
+	bloqueTouchesFonctions(event);
+	$('input:radio[name="radioChoixType"][value="conges"]').click(); //attr('checked', true);
+	//$('input[name=radioChoixType]').val('conges')
+	return false;
 }

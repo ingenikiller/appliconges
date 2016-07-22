@@ -42,6 +42,7 @@
 						<th>Disponibles</th>
 						<th>Saisis</th>
 						<th>Pris</th>
+						<th>Reste</th>
 					</tr>
 				</table>
 			</center>	
