@@ -200,6 +200,13 @@ function modifieCase(idCase, typeJour){
 		return false;
 	}
 	
+	//compare la date du jour avec la date sélectionnée
+	var dateSelectionnee = new Date(idCase.substring(0,4), Number(idCase.substring(5,7))-1, idCase.substring(8,10));
+	var dateJour = new Date();
+	if(dateJour > dateSelectionnee) {
+		return false;
+	}
+	
 	var typeCongesActuel = $("td[id|='"+idCase+"']").attr('typeConges');
 	
 	if(typeCongesActuel=='' || typeCongesActuel==undefined){
