@@ -12,7 +12,7 @@
  */
 class GestionJourFerieService {
     //put your code here
-    
+
 	public function getListe($p_contexte){
 		//$requete="SELECT * FROM jourConges";
 		$l_clause='';
@@ -22,10 +22,10 @@ class GestionJourFerieService {
 		$p_contexte->addDataBlockRow($listeJour);
 		
 	}
-	
-	
-    
-	
+
+
+
+
 }
 
 ?>

@@ -141,7 +141,14 @@ function premiereLigneAnnee(annee){
 function ajouteMois(annee, mois){
 	var ligne=$("<tr/>");
 	//ligne.append($("<td/>").text(annee));
-	ligne.append($("<th/>").text(tabMois[mois]));
+	
+	var dateJour = new Date();
+	var classe = '';
+	if(annee==dateJour.getFullYear() && mois==dateJour.getMonth()) {
+		classe='class="th_mois_encours"';
+	}
+	
+	ligne.append($('<th '+classe+'/>').text(tabMois[mois]));
 	//alert("ligne "+annee+" "+ligne);
 	//$("#tableauCalendrier").append(ligne);
 	ajouteJourMois(ligne, annee, mois);
@@ -164,11 +171,6 @@ function ajouteJourMois(ligne, annee, mois){
 }
 
 
-/*function isDate (x) 
-{ 
-	//return (null != x) && !isNaN(x) && ("undefined" !== typeof x.getDate); 
-}*/
-
 /*********************************
  * effectue un pad à gauche sur un
  * nombre
@@ -179,6 +181,12 @@ function pad(n, width, z) {
 	return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
 }
 
+
+/*********************************
+ * détermine le type de congés par
+ * rapport au type de jour et au 
+ * nombre de clics
+ *********************************/
 function determineTypeConges(nbClicks){
 	var typeJour = $('input[name=radioChoixType]:checked').val();
 	
@@ -190,6 +198,10 @@ function determineTypeConges(nbClicks){
 }
 
 
+/*********************************
+ * décide de la mise à jour de la
+ * couleur d'une case
+ *********************************/
 function modifieCase(idCase, typeJour){
 	//var typeJour = $('input[name=radioChoixType]:checked').val();//$( "#radio" ).text();
 	
@@ -214,10 +226,13 @@ function modifieCase(idCase, typeJour){
 	} else {
 		majCaseJour(idCase, typeJour);
 	}
-	
-	
 }
 
+
+/*********************************
+ * modifie la couleur d'une case 
+ * par rapport au type de jour
+ *********************************/
 function majCaseJour(idCase, typeJour){
 	var typeActuel = $("td[id|='"+idCase+"']").attr('typeConges');
 	
@@ -235,13 +250,16 @@ function majCaseJour(idCase, typeJour){
 		}
 	}
 	
-	$("td[id|='"+idCase+"']").removeClass();//tabCouleur[typeActuel]);
-	//$("td[id|='"+idCase+"']").addClass(tabCouleur[typeJour]);
-	//$("td[id|='"+idCase+"']").attr('typeConges', typeJour);
+	$("td[id|='"+idCase+"']").removeClass();
 	coloreCase(idCase, typeJour);
 	alimentePeriodes();
 }
 
+
+/*********************************
+ * modifie la couleur d'une case 
+ * par rapport au type de jour
+ *********************************/
 function coloreCase(idCase, typeJour) {
 	$("td[id|='"+idCase+"']").addClass(tabCouleur[typeJour]);
 	$("td[id|='"+idCase+"']").attr('typeConges', typeJour);
@@ -318,12 +336,7 @@ function alimentePeriodes() {
 			row.append($('<td align="right" id="'+"reste"+debut+'"/>').text(reste));
 			$("#tableauPeriodes").append(row);
 		}
-		
-		/*var caseId = tabJson[i].jour;
-		var typeConges = tabJson[i].typeConges;
-		majCaseJour(caseId, typeConges);*/
 	}
-	
 	return tabAnnees;
 }
 
@@ -365,8 +378,6 @@ function alimenteJoursFeries() {
 	var tabJson = json[0].tabResult;
 	for(i=0; i<nb; i++) {
 		var caseId = tabJson[i].dateFerie;
-		//var typeConges = tabJson[i].typeConges;
-		//coloreCase(caseId, typeConges);
 		$( "#"+caseId ).removeClass();//'jour_ouvre');//.css( "background-color", "grey" );
 		$( "#"+caseId ).addClass('jour_ferie');
 	}
