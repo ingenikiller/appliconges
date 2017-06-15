@@ -24,7 +24,7 @@ class GestionPeriodeService {
 					LEFT JOIN jourConges ON periode.user=jourConges.user AND jourConges.jour BETWEEN periode.debut AND periode.fin 
 					AND jourConges.typeConges LIKE CONCAT(periode.typeConges, \'%\')
 					LEFT JOIN typeConges ON typeConges.typeConges = jourConges.typeConges 
-					WHERE YEAR(CURDATE()) <= YEAR(periode.fin)
+					WHERE CURDATE() <= DATE(periode.fin)
 					GROUP BY debut, fin , nbjour, periode.typeConges ORDER BY debut';
 		
 		$listePeriodes = new ListDynamicObject();

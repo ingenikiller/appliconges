@@ -16,7 +16,7 @@
 				<div id="radio">
 					<input type="radio" id="radio1" name="radioChoixType" value="inactif" checked="checked"/><label for="radio1">Inactif</label>
 					<input type="radio" id="radio2" name="radioChoixType" value="rtt"/><label for="radio2">RTT</label>
-					<input type="radio" id="radio3" name="radioChoixType" value="conges"/><label for="radio3">Conges</label>
+					<input type="radio" id="radio3" name="radioChoixType" value="conges"/><label for="radio3">Congès</label>
 				</div>
 
 				<br/>

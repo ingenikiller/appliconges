@@ -68,7 +68,9 @@ $(document).ready(function() {
 		}
 	);
 	
-	$( "#radio" ).buttonset();
+	$( "#radio" ).controlgroup({
+      icon: false
+    });
 
 	alimenteJours();
 	alimenteJoursFeries();
