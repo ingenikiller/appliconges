@@ -15,7 +15,10 @@ class GestionJourFerieService {
 
 	public function getListe($p_contexte){
 		//$requete="SELECT * FROM jourConges";
-		$l_clause='';
+		
+		$anneeDebutPeriode=$p_contexte->m_dataRequest->getData('anneeDebutPeriode');
+		$anneeFinPeriode=$p_contexte->m_dataRequest->getData('anneeFinPeriode');
+		$l_clause="dateFerie BETWEEN CONCAT($anneeDebutPeriode,'-01-01') AND CONCAT($anneeFinPeriode,'-12-31')";
 		$listeJour = new ListObject();
         $listeJour->name='ListeJourFerie';
 		$listeJour->requestNoPage('JourFerie', $l_clause);

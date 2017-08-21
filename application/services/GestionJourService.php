@@ -14,8 +14,9 @@ class GestionJourService {
     //put your code here
     
 	public function getListe($p_contexte){
-		//$requete="SELECT * FROM jourConges";
-		$l_clause='';
+		$anneeDebutPeriode=$p_contexte->m_dataRequest->getData('anneeDebutPeriode');
+		$anneeFinPeriode=$p_contexte->m_dataRequest->getData('anneeFinPeriode');
+		$l_clause="jour BETWEEN CONCAT($anneeDebutPeriode,'-01-01') AND CONCAT($anneeFinPeriode,'-12-31')";
 		$listeJour = new ListObject();
         $listeJour->name='ListeJour';
 		$listeJour->requestNoPage('JourConges', $l_clause);

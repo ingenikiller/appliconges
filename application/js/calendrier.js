@@ -13,17 +13,16 @@ $.fn.singleAndDouble = function(singleClickFunc, doubleClickFunc) {
 		}
 	});
   
-  this.on('dblclick', function(event) {
-    clearTimeout(timeoutID);
-    ignoreSingleClicks = true;
-    
-    setTimeout(function() {
-      ignoreSingleClicks = false;
-    }, timeOut);
-    
-    doubleClickFunc(event);
-  });
-  
+	this.on('dblclick', function(event) {
+		clearTimeout(timeoutID);
+		ignoreSingleClicks = true;
+
+		setTimeout(function() {
+			ignoreSingleClicks = false;
+		}, timeOut);
+
+		doubleClickFunc(event);
+	});
 };
 
 var singleClickCalled = false;
@@ -31,17 +30,93 @@ var singleClickCalled = false;
 
 
 $(document).ready(function() {
-	var tabAnnees = alimentePeriodes();
-	peuplerCalendrier(tabAnnees);
-	//alert("toto");
+	alimenterPeriodes();
 	
-	//var date = new Date(2016, 1, 31);
-	//alert(date.toString() + " "+ isDate(date));
+	$( "#radio" ).controlgroup({
+      icon: false
+    });
+});
+
+var tabJour=["D", 'L', 'M', 'M', 'J', 'V', 'S'];
+var tabMois=["Janvier", 'Fevrier', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Aout', 'Septembre', 'Octobre', 'Novembre', 'Decembre'];
+var tabCouleur={'inactif': 'jour_ouvre', "rtt1":"rtt_jour", "rtt2":"rtt_demi",'conges1':"conges_jour", 'conges2':"conges_demi"};
+var tabCouleurInverse={"green":"rtt", 'blue':"conges"};
+
+
+/*********************************
+ * recherche et affiche les  
+ * périodes de congés/rtt
+ *********************************/
+function alimenterPeriodes() {
+
+	$.ajax({
+		url: "index.php?domaine=periode&service=getListe",
+		async: true,
+		dataType: 'json',
+		success : function(resultat, statut, erreur){
+			//nombre de périodes
+			var nb=resultat[0].nbLine;
+			//tableau des périodes
+			var tabJson = resultat[0].tabResult;
+			
+			var tabAnnees = Array();
+			tabAnnees['debut']=(tabJson[0].debut).substr(0, 4);
+			tabAnnees['fin']=tabJson[nb - 1].fin.substr(0, 4);
+			
+			for(i=0; i<nb; i++) {
+				var codeLigne = tabJson[i].debut + tabJson[i].typeConges;
+				var totalDispo = Number(tabJson[i].nbjour);
+				var totalPositionne = Number(tabJson[i].total);
+				var totalPris = 0;
+				if(tabJson[i].associatedObjet[0].tabResult[0] != null) {
+					totalPris = Number(tabJson[i].associatedObjet[0].tabResult[0].total);
+				}
+				var reste = totalDispo - totalPositionne;
+				var styleRow='';
+				if(totalDispo == totalPositionne) {
+					styleRow='periodeComplete';
+				} else {
+					if (totalDispo < totalPositionne) {
+						styleRow='periodeTropSaisi';
+					} else {
+						styleRow='periodeIncomplete';
+					}
+				}
+				
+				//si la période est déjà affichée
+				if( $("#totalPositionne"+codeLigne).length) {
+					$("#totalPositionne"+codeLigne).text(tabJson[i].total);
+					$("#reste"+codeLigne).text(reste);
+					$('#periode'+codeLigne).removeClass();
+					$('#periode'+codeLigne).addClass(styleRow);
+				} else {
+					//sinon, n initialise l'affichage
+					var row = $('<tr id="'+'periode'+codeLigne+'" class="'+styleRow+'"/>');
+					row.append($("<td/>").text(tabJson[i].debut));
+					row.append($("<td/>").text(tabJson[i].fin));
+					row.append($("<td/>").text(tabJson[i].typeConges));
+					row.append($('<td align="right" id="'+"totalDispo"+codeLigne+'"/>').text(totalDispo));
+					row.append($('<td align="right" id="'+"totalPositionne"+codeLigne+'"/>').text(totalPositionne));
+					row.append($('<td align="right"/>').text(totalPris));
+					row.append($('<td align="right" id="'+"reste"+codeLigne+'"/>').text(reste));
+					$("#tableauPeriodes").append(row);
+				}
+			}
+			peuplerCalendrier(tabAnnees);
+			alimenteJours(tabAnnees['debut'], tabAnnees['fin']);
+			alimenteJoursFeries(tabAnnees['debut'], tabAnnees['fin']);
+			traiteWeekendEvent();
+		}
+	});
+}
+
+
+function traiteWeekendEvent() {
 	$( "td[type|='jour']" ).addClass('jour_ouvre');
-	$( "td[jour|='S']" ).removeClass();//'jour_ouvre');//.css( "background-color", "grey" );
-	$( "td[jour|='S']" ).addClass('jour_ferme');//.css( "background-color", "grey" );
-	$( "td[jour|='D']" ).removeClass();//'jour_ouvre');//.css( "background-color", "grey" );
-	$( "td[jour|='D']" ).addClass('jour_ferme');//.css( "background-color", "grey" );
+	$( "td[jour|='S']" ).removeClass();
+	$( "td[jour|='S']" ).addClass('jour_ferme');
+	$( "td[jour|='D']" ).removeClass();
+	$( "td[jour|='D']" ).addClass('jour_ferme');
 	
 	$("td[type|='jour']").singleAndDouble(
 		function(event) {
@@ -67,24 +142,7 @@ $(document).ready(function() {
 			singleClickCalled = false;
 		}
 	);
-	
-	$( "#radio" ).controlgroup({
-      icon: false
-    });
-
-	alimenteJours();
-	alimenteJoursFeries();
-});
-
-
-
-
-
-var tabJour=["D", 'L', 'M', 'M', 'J', 'V', 'S'];
-var tabMois=["Janvier", 'Fevrier', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Aout', 'Septembre', 'Octobre', 'Novembre', 'Decembre'];
-//var tabCouleur={'inactif': '#FFFFFF', "rtt1":"#A1FF8E", "rtt2":"#4DFE2A",'conges1':"#039FD8", 'conges2':"#7DDAFC"};
-var tabCouleur={'inactif': 'jour_ouvre', "rtt1":"rtt_jour", "rtt2":"rtt_demi",'conges1':"conges_jour", 'conges2':"conges_demi"};
-var tabCouleurInverse={"green":"rtt", 'blue':"conges"};
+}
 
 
 /*********************************
@@ -97,24 +155,21 @@ function peuplerCalendrier(tabAnnees) {
 	for (var annee=anneeDeb; annee<=anneeFin; annee++){
 		
 		//génère la première ligne du tableau
-		
-		$("#tableauCalendrier").append(genereNumeroJour());
+		$("#tableauCalendrier").append(genereLigneNumerosJours());
 		$("#tableauCalendrier").append(premiereLigneAnnee(annee));
 		
 		for (var mois=1; mois<=11; mois++){
 			$("#tableauCalendrier").append(ajouteMois(annee, mois));
 		}
 	}
-	$("#tableauCalendrier").append(genereNumeroJour());
-	
-	
+	$("#tableauCalendrier").append(genereLigneNumerosJours());
 }
 
 /*********************************
  * génère la ligne de numéros de
  * jour
  *********************************/
-function genereNumeroJour(){
+function genereLigneNumerosJours(){
 	var ligne=$("<tr/>");
 	ligne.append($("<td/><td/>"));
 	for(var i=1; i<=31; i++) {
@@ -133,7 +188,7 @@ function premiereLigneAnnee(annee){
 	ligne.append($("<th/>").text(tabMois[0]));
 	//alert("ligne "+annee+" "+ligne);
 	//$("#tableauCalendrier").append(ligne);
-	ajouteJourMois(ligne, annee, 0);
+	ajouteJoursMois(ligne, annee, 0);
 	return ligne;
 }
 
@@ -151,9 +206,7 @@ function ajouteMois(annee, mois){
 	}
 	
 	ligne.append($('<th '+classe+'/>').text(tabMois[mois]));
-	//alert("ligne "+annee+" "+ligne);
-	//$("#tableauCalendrier").append(ligne);
-	ajouteJourMois(ligne, annee, mois);
+	ajouteJoursMois(ligne, annee, mois);
 	return ligne;
 }
 
@@ -161,7 +214,7 @@ function ajouteMois(annee, mois){
  * génère la liste des jours d'un
  * mois
  *********************************/
-function ajouteJourMois(ligne, annee, mois){
+function ajouteJoursMois(ligne, annee, mois){
 	for(var j=1; j<=31; j++){
 		var date = new Date(annee, mois, j);
 		//vérifie la génération de la date: si le jour de la date et le jour voulu sont différents, la date n'existe pas
@@ -205,10 +258,7 @@ function determineTypeConges(nbClicks){
  * couleur d'une case
  *********************************/
 function modifieCase(idCase, typeJour){
-	//var typeJour = $('input[name=radioChoixType]:checked').val();//$( "#radio" ).text();
-	
 	//si le jour est un jour fermé (samedi, dimanche ou férié)
-
 	var jourSemaine = $("td[id|='"+idCase+"']").attr('jour');
 	if ($('#'+idCase).hasClass('jour_ferme') || $('#'+idCase).hasClass('jour_ferie')) {
 		return false;
@@ -254,7 +304,6 @@ function majCaseJour(idCase, typeJour){
 	
 	$("td[id|='"+idCase+"']").removeClass();
 	coloreCase(idCase, typeJour);
-	alimentePeriodes();
 }
 
 
@@ -268,121 +317,103 @@ function coloreCase(idCase, typeJour) {
 }
 
 
-
-
-
 function ajaxMajJour(jour, action, typeConges){
 	var params="jour="+jour+"&typeConges="+typeConges;
 	$.ajax({
-	         url: "index.php?domaine=jour&service="+action,
-	         async: false,
-	         dataType: 'json',
-	         data: params
-	        }
-	    );
+		url: "index.php?domaine=jour&service="+action,
+		async: true,
+		dataType: 'json',
+		data: params,
+		success : function(resultat, statut, erreur){
+			majPeriodes();
+		}
+	});
 }
 
-function alimentePeriodes() {
-	var params='';
-	var json = $.parseJSON(
-	    $.ajax({
-	         url: "index.php?domaine=periode&service=getListe",
-	         async: false,
-	         dataType: 'json',
-	         data: params
-	        }
-	    ).responseText
-	);
-	
-	var nb=json[0].nbLine;
-	var tabJson = json[0].tabResult;
-	
-	var tabAnnees = Array();
-	tabAnnees['debut']=(tabJson[0].debut).substr(0, 4);
-	tabAnnees['fin']=tabJson[nb - 1].fin.substr(0, 4);
-	
-	for(i=0; i<nb; i++) {
-		var debut = tabJson[i].debut;
-		var totalDispo = Number(tabJson[i].nbjour);
-		var totalPositionne = Number(tabJson[i].total);
-		var totalPris = 0;
-		if(tabJson[i].associatedObjet[0].tabResult[0] != null) {
-			totalPris = Number(tabJson[i].associatedObjet[0].tabResult[0].total);
-		}
-		var reste = totalDispo - totalPositionne;
-		var styleRow='';
-		if(totalDispo == totalPositionne) {
-			styleRow='periodeComplete';
-		} else {
-			if (totalDispo < totalPositionne) {
-				styleRow='periodeTropSaisi';
-			} else {
-				styleRow='periodeIncomplete';
+/*********************************
+ * recherche et affiche les  
+ * périodes de congés/rtt
+ *********************************/
+function majPeriodes() {
+	$.ajax({
+		url: "index.php?domaine=periode&service=getListe",
+		async: true,
+		dataType: 'json',
+		success : function(resultat, statut, erreur){
+			//nombre de périodes
+			var nb=resultat[0].nbLine;
+			//tableau des périodes
+			var tabJson = resultat[0].tabResult;
+			for(i=0; i<nb; i++) {
+				var codeLigne = tabJson[i].debut + tabJson[i].typeConges;
+				var totalDispo = Number(tabJson[i].nbjour);
+				var totalPositionne = Number(tabJson[i].total);
+				
+				var reste = totalDispo - totalPositionne;
+				var styleRow='';
+				if(totalDispo == totalPositionne) {
+					styleRow='periodeComplete';
+				} else {
+					if (totalDispo < totalPositionne) {
+						styleRow='periodeTropSaisi';
+					} else {
+						styleRow='periodeIncomplete';
+					}
+				}
+				
+				$("#totalPositionne"+codeLigne).text(totalPositionne);
+				$("#reste"+codeLigne).text(reste);
+				$('#periode'+codeLigne).removeClass();
+				$('#periode'+codeLigne).addClass(styleRow);
 			}
 		}
-		
-		
-		if( $("#totalPositionne"+debut).length) {
-			$("#totalPositionne"+debut).text(tabJson[i].total);
-			$("#reste"+debut).text(reste);
-			$('#periode'+debut).removeClass();
-			$('#periode'+debut).addClass(styleRow);
-		} else {
-			var row = $('<tr id="'+'periode'+debut+'" class="'+styleRow+'"/>');
-			row.append($("<td/>").text(debut));
-			row.append($("<td/>").text(tabJson[i].fin));
-			row.append($("<td/>").text(tabJson[i].typeConges));
-			row.append($('<td align="right" id="'+"totalDispo"+debut+'"/>').text(totalDispo));
-			row.append($('<td align="right" id="'+"totalPositionne"+debut+'"/>').text(totalPositionne));
-			row.append($('<td align="right"/>').text(totalPris));
-			row.append($('<td align="right" id="'+"reste"+debut+'"/>').text(reste));
-			$("#tableauPeriodes").append(row);
+	});
+}
+
+/*********************************
+ * recherche et affiche les  
+ * jours de congés/rtt
+ *********************************/
+function alimenteJours(anneeDebutPeriode, anneeFinPeriode) {
+	var params='anneeDebutPeriode='+anneeDebutPeriode+'&anneeFinPeriode='+anneeFinPeriode;
+	$.ajax({
+		url: "index.php?domaine=jour&service=getListe",
+		async: true,
+		dataType: 'json',
+		data: params,
+		success : function(resultat, statut, erreur){
+			var nb=resultat[0].nbLine;
+			var tabJson = resultat[0].tabResult;
+			for(i=0; i<nb; i++) {
+				var caseId = tabJson[i].jour;
+				var typeConges = tabJson[i].typeConges;
+				coloreCase(caseId, typeConges);
+			}
 		}
-	}
-	return tabAnnees;
+	});
 }
 
-
-function alimenteJours() {
-	var params='';
-	var json = $.parseJSON(
-	    $.ajax({
-	         url: "index.php?domaine=jour&service=getListe",
-	         async: false,
-	         dataType: 'json',
-	         data: params
-	        }
-	    ).responseText
-	);
-	
-	var nb=json[0].nbLine;
-	var tabJson = json[0].tabResult;
-	for(i=0; i<nb; i++) {
-		var caseId = tabJson[i].jour;
-		var typeConges = tabJson[i].typeConges;
-		coloreCase(caseId, typeConges);
-	}
-}
-
-function alimenteJoursFeries() {
-	var params='';
-	var json = $.parseJSON(
-	    $.ajax({
-	         url: "index.php?domaine=jourferie&service=getListe",
-	         async: false,
-	         dataType: 'json',
-	         data: params
-	        }
-	    ).responseText
-	);
-	
-	var nb=json[0].nbLine;
-	var tabJson = json[0].tabResult;
-	for(i=0; i<nb; i++) {
-		var caseId = tabJson[i].dateFerie;
-		$( "#"+caseId ).removeClass();//'jour_ouvre');//.css( "background-color", "grey" );
-		$( "#"+caseId ).addClass('jour_ferie');
-	}
+/*********************************
+ * recherche et affiche les  
+ * jours fériés
+ *********************************/
+function alimenteJoursFeries(anneeDebutPeriode, anneeFinPeriode) {
+	var params='anneeDebutPeriode='+anneeDebutPeriode+'&anneeFinPeriode='+anneeFinPeriode;
+	$.ajax({
+		url: "index.php?domaine=jourferie&service=getListe",
+		async: true,
+		dataType: 'json',
+		data: params,
+		success : function(resultat, statut, erreur){
+			var nb=resultat[0].nbLine;
+			var tabJson = resultat[0].tabResult;
+			for(i=0; i<nb; i++) {
+				var caseId = tabJson[i].dateFerie;
+				$( "#"+caseId ).removeClass();
+				$( "#"+caseId ).addClass('jour_ferie');
+			}
+		}
+	});
 }
 
 function activeF1(event){
@@ -398,7 +429,6 @@ function activeF2(event){
 }
 function activeF3(event){
 	bloqueTouchesFonctions(event);
-	$('input:radio[name="radioChoixType"][value="conges"]').click(); //attr('checked', true);
-	//$('input[name=radioChoixType]').val('conges')
+	$('input:radio[name="radioChoixType"][value="conges"]').click();
 	return false;
 }
