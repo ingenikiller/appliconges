@@ -50,7 +50,7 @@ var tabCouleurInverse={"green":"rtt", 'blue':"conges"};
 function alimenterPeriodes() {
 
 	$.ajax({
-		url: "index.php?domaine=periode&service=getListe",
+		url: "index.php?domaine=periode&service=getlisteactive",
 		async: true,
 		dataType: 'json',
 		success : function(resultat, statut, erreur){
@@ -64,7 +64,7 @@ function alimenterPeriodes() {
 			tabAnnees['fin']=tabJson[nb - 1].fin.substr(0, 4);
 			
 			for(i=0; i<nb; i++) {
-				var codeLigne = tabJson[i].debut + tabJson[i].typeConges;
+				var codeLigne = tabJson[i].debut + tabJson[i].typePeriode;
 				var totalDispo = Number(tabJson[i].nbjour);
 				var totalPositionne = Number(tabJson[i].total);
 				var totalPris = 0;
@@ -94,7 +94,7 @@ function alimenterPeriodes() {
 					var row = $('<tr id="'+'periode'+codeLigne+'" class="'+styleRow+'"/>');
 					row.append($("<td/>").text(tabJson[i].debut));
 					row.append($("<td/>").text(tabJson[i].fin));
-					row.append($("<td/>").text(tabJson[i].typeConges));
+					row.append($("<td/>").text(tabJson[i].typePeriode));
 					row.append($('<td align="right" id="'+"totalDispo"+codeLigne+'"/>').text(totalDispo));
 					row.append($('<td align="right" id="'+"totalPositionne"+codeLigne+'"/>').text(totalPositionne));
 					row.append($('<td align="right"/>').text(totalPris));
@@ -220,7 +220,7 @@ function ajouteJoursMois(ligne, annee, mois){
 		//vérifie la génération de la date: si le jour de la date et le jour voulu sont différents, la date n'existe pas
 		if(date.getDate() == j){
 			var jour = date.getDay();
-			ligne.append($("<td id=\""+annee+'-'+pad(mois+1, 2, '0')+'-'+pad(j, 2, '0')+"\" jour=\""+tabJour[jour]+ "\" type=\"jour\" typeConges=\"inactif\"/>").append('<img src="application/images/'+tabJour[jour]+'.png"/>'));//text(tabJour[jour])); //""));
+			ligne.append($("<td id=\""+annee+'-'+pad(mois+1, 2, '0')+'-'+pad(j, 2, '0')+"\" jour=\""+tabJour[jour]+ "\" type=\"jour\" typePeriode=\"inactif\"/>").append('<img src="application/images/'+tabJour[jour]+'.png"/>'));//text(tabJour[jour])); //""));
 		}
 	}
 }
@@ -271,9 +271,9 @@ function modifieCase(idCase, typeJour){
 		return false;
 	}
 	
-	var typeCongesActuel = $("td[id|='"+idCase+"']").attr('typeConges');
+	var typePeriodeActuel = $("td[id|='"+idCase+"']").attr('typePeriode');
 	
-	if(typeCongesActuel=='' || typeCongesActuel==undefined){
+	if(typePeriodeActuel=='' || typePeriodeActuel==undefined){
 		majCaseJour(idCase, typeJour);
 	} else {
 		majCaseJour(idCase, typeJour);
@@ -286,7 +286,7 @@ function modifieCase(idCase, typeJour){
  * par rapport au type de jour
  *********************************/
 function majCaseJour(idCase, typeJour){
-	var typeActuel = $("td[id|='"+idCase+"']").attr('typeConges');
+	var typeActuel = $("td[id|='"+idCase+"']").attr('typePeriode');
 	
 	if(typeJour==typeActuel){
 		return;
@@ -313,12 +313,12 @@ function majCaseJour(idCase, typeJour){
  *********************************/
 function coloreCase(idCase, typeJour) {
 	$("td[id|='"+idCase+"']").addClass(tabCouleur[typeJour]);
-	$("td[id|='"+idCase+"']").attr('typeConges', typeJour);
+	$("td[id|='"+idCase+"']").attr('typePeriode', typeJour);
 }
 
 
-function ajaxMajJour(jour, action, typeConges){
-	var params="jour="+jour+"&typeConges="+typeConges;
+function ajaxMajJour(jour, action, typePeriode){
+	var params="jour="+jour+"&typePeriode="+typePeriode;
 	$.ajax({
 		url: "index.php?domaine=jour&service="+action,
 		async: true,
@@ -345,7 +345,7 @@ function majPeriodes() {
 			//tableau des périodes
 			var tabJson = resultat[0].tabResult;
 			for(i=0; i<nb; i++) {
-				var codeLigne = tabJson[i].debut + tabJson[i].typeConges;
+				var codeLigne = tabJson[i].debut + tabJson[i].typePeriode;
 				var totalDispo = Number(tabJson[i].nbjour);
 				var totalPositionne = Number(tabJson[i].total);
 				
@@ -386,8 +386,8 @@ function alimenteJours(anneeDebutPeriode, anneeFinPeriode) {
 			var tabJson = resultat[0].tabResult;
 			for(i=0; i<nb; i++) {
 				var caseId = tabJson[i].jour;
-				var typeConges = tabJson[i].typeConges;
-				coloreCase(caseId, typeConges);
+				var typePeriode = tabJson[i].typePeriode;
+				coloreCase(caseId, typePeriode);
 			}
 		}
 	});
@@ -400,7 +400,7 @@ function alimenteJours(anneeDebutPeriode, anneeFinPeriode) {
 function alimenteJoursFeries(anneeDebutPeriode, anneeFinPeriode) {
 	var params='anneeDebutPeriode='+anneeDebutPeriode+'&anneeFinPeriode='+anneeFinPeriode;
 	$.ajax({
-		url: "index.php?domaine=jourferie&service=getListe",
+		url: "index.php?domaine=jourferie&service=getlisteperiode",
 		async: true,
 		dataType: 'json',
 		data: params,

@@ -8,7 +8,7 @@ class Jourconges extends SavableObject {
 	
 	public $jour=NULL;
 	
-	public $typeConges;
+	public $typePeriode;
 	
 }
 ?>

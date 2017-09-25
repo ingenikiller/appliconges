@@ -3,19 +3,28 @@
 	<domaines>
 	
 		<domaine name="jour">
+			<service name="create"   classe="GestionJourService" methode="create"   isPrivee="true" render="json" privee="true"/>
+			<service name="delete"   classe="GestionJourService" methode="delete"   isPrivee="true" render="json" privee="true"/>
 			<service name="getListe" classe="GestionJourService" methode="getListe" isPrivee="true" render="json" privee="true"/>
-			<service name="create" classe="GestionJourService" methode="create" isPrivee="true" render="json" privee="true"/>
-			<service name="update" classe="GestionJourService" methode="update" isPrivee="true" render="json" privee="true"/>
-			<service name="delete" classe="GestionJourService" methode="delete" isPrivee="true" render="json" privee="true"/>
+			<service name="update"   classe="GestionJourService" methode="update"   isPrivee="true" render="json" privee="true"/>
 		</domaine>
 		<domaine name="jourferie">
-			<service name="getListe" classe="GestionJourFerieService" methode="getListe" isPrivee="true" render="json" privee="true"/>
+			<service name="getpage" classe="GestionJourFerieService" methode="fictive" isPrivee="true" privee="true" xsl="xsl/jours_feries.xsl"/>
+			<service name="getlisteperiode" classe="GestionJourFerieService" methode="getListePeriode" isPrivee="true" render="json" privee="true"/>
+			<service name="getliste" classe="GestionJourFerieService" methode="getListe" isPrivee="true" render="json" privee="true"/>
+			<service name="delete" classe="GestionJourFerieService" methode="delete" isPrivee="true" render="json" privee="true"/>
 		</domaine>
 		<domaine name="calendrier">
 			<service name="getpage" classe="Factice" methode="fictive" isPrivee="false"  xsl="xsl/calendrier.xsl" privee="false"/>
 		</domaine>
 		<domaine name="periode">
-			<service name="getListe" classe="GestionPeriodeService" render="json" methode="getListe" isPrivee="true"/>
+			<service name="create"   classe="GestionPeriodeService" methode="create"   isPrivee="true"  render="json"/>
+			<service name="getone"   classe="GestionPeriodeService" methode="getOne"   isPrivee="true" render="json"/>
+			<service name="getliste" classe="GestionPeriodeService" methode="getliste" isPrivee="true"  render="json"/>
+			<service name="getpage"  classe="GestionPeriodeService" methode="fictive"  isPrivee="true" xsl="xsl/periode.xsl"/>
+			<service name="update"   classe="GestionPeriodeService" methode="update"   isPrivee="true" render="json"/>
+			<service name="getlisteactive" classe="GestionPeriodeService" methode="getListeActive" isPrivee="true"  render="json"/>
+			<service name="modifieaffichage" classe="GestionPeriodeService" methode="modifieAffichage"   isPrivee="false" render="json"/>
 		</domaine>
 		<domaine name="technique">
 			<service name="login" classe="Login" methode="fictive" isPrivee="false"  xsl="xsl/login.xsl" privee="false"/>

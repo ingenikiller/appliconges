@@ -1,18 +1,22 @@
 <?php
 class Periode extends SavableObject {
-	static private $key='user,debut';
+	static private $key='idperiode';
 	public function getPrimaryKey(){
 		return self::$key;
 	}
-	public $user=NULL;
+	public $idperiode=NULL;
 	
-	public $debut=NULL;
+	public $user;
+	
+	public $debut;
 	
 	public $fin;
 	
-	public $typeConges;
+	public $typePeriode;
 	
 	public $nbjour;
+	
+	public $affichage;
 	
 }
 ?>

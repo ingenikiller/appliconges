@@ -11,7 +11,29 @@
 				<xsl:attribute name="onload">
 					<xsl:call-template name="onLoadTemplate"/>
 				</xsl:attribute>
+				<!--div style="float:left; width:300px; margin-left: 10px;">
+					<a>Congès</a><br/>
+					<a>Paramétrage</a>
+				</div-->
+				
 				<div class="container">
+				<xsl:variable name="affMenu">
+					<xsl:call-template name="controleMenu"/>
+				</xsl:variable>
+				<xsl:if test="$affMenu='O'">
+					<row>
+					 <div class="dropdown">
+					  <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">Menu
+					  <span class="caret"></span></button>
+					  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+						<li><a href="index.php?domaine=calendrier&amp;service=getpage">Calendrier</a></li>
+						<li><a href="index.php?domaine=periode&amp;service=getpage">Période</a></li>
+						<li><a href="index.php?domaine=jourferie&amp;service=getpage">Jours fériés</a></li>
+					  </ul>
+					</div>
+					</row>
+				</xsl:if>
+					
 					<br/>
 					<xsl:call-template name="Contenu"/>	
 				</div>
@@ -39,11 +61,12 @@
 				<xsl:value-of select="$HeadTitre"/>
 			</title>
 			
-			<link href="application/bootstrap/bootstrap-3.3.5-dist/js/bootstrap.min.js" rel="stylesheet"/>
 			<link href="application/bootstrap/bootstrap-{$BOOTSTRAP-VERSION}-dist/css/bootstrap.min.css" rel="stylesheet"/>
 			<link href="application/jquery/jquery-ui-{$JQUERY-VERSION}.custom/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
 			
 			<script type="text/javascript" src="application/jquery/jquery-ui-{$JQUERY-VERSION}.custom/external/jquery/jquery.js" charset="iso-8859-1">&#160;</script>
+			<script type="text/javascript" src="application/bootstrap/bootstrap-{$BOOTSTRAP-VERSION}-dist/js/bootstrap.min.js" charset="iso-8859-1">&#160;</script>
+			
 			<script type="text/javascript" src="application/jquery/jquery-ui-{$JQUERY-VERSION}.custom/jquery-ui.min.js" charset="iso-8859-1">&#160;</script>
 			
 			<!--script type="text/javascript" src="application/js/commun.js" charset="iso-8859-1">&#160;</script>
@@ -71,7 +94,7 @@
 			</center>
 		</div>
 	</xsl:template>
-	
+	<xsl:template name="controleMenu">O</xsl:template>
 	<xsl:template name="onLoadTemplate"/>
 	
 </xsl:stylesheet>

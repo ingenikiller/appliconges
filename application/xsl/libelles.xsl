@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="ISO-8859-15"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 	<xsl:variable name="LBL.ACTIONS">Actions</xsl:variable>
-	<xsl:variable name="LBL.AFFICHER">Afficher</xsl:variable>
+	<xsl:variable name="LBL.AFFICHAGE">Affichage</xsl:variable>
+	
+	<!--xsl:variable name="LBL.AFFICHER">Afficher</xsl:variable>
 	<xsl:variable name="LBL.ANNEE">Année</xsl:variable>
 	<xsl:variable name="LBL.ANNEES">Années</xsl:variable>
 	<xsl:variable name="LBL.CLE">Clé</xsl:variable>
@@ -11,11 +13,15 @@
 	<xsl:variable name="LBL.COMPTES">Comptes</xsl:variable>
 	<xsl:variable name="LBL.CREERNOUVEAU">Créer un nouveau @1</xsl:variable>
 	<xsl:variable name="LBL.CREEROPERATION">Créer une nouvelle @1</xsl:variable>
-	<xsl:variable name="LBL.CREDIT">Crédit</xsl:variable>
+	<xsl:variable name="LBL.CREDIT">Crédit</xsl:variable-->
+	
+	
 	<xsl:variable name="LBL.CREER">Créer</xsl:variable>
 	<xsl:variable name="LBL.DATE">Date</xsl:variable>
-	<xsl:variable name="LBL.DEBIT">Débit</xsl:variable>
-	<xsl:variable name="LBL.DECONNEXION">Déconnexion</xsl:variable>
+	<xsl:variable name="LBL.DEBUT">Début</xsl:variable>
+	<xsl:variable name="LBL.EDITIONPERIODE">Edtion période</xsl:variable>
+	
+	<!--xsl:variable name="LBL.DECONNEXION">Déconnexion</xsl:variable>
 	<xsl:variable name="LBL.DEPENSE">Dépense</xsl:variable>
 	<xsl:variable name="LBL.DEPENSES">Dépenses</xsl:variable>
 	<xsl:variable name="LBL.DERNIEREANNEE">Dernière année</xsl:variable>
@@ -25,7 +31,6 @@
 	<xsl:variable name="LBL.DETAILFLUX">Détail flux</xsl:variable>
 	<xsl:variable name="LBL.DIFFERENCE">Difference</xsl:variable>
 	<xsl:variable name="LBL.EDITER">Editer</xsl:variable>
-	<xsl:variable name="LBL.EDITIONCOMPTE">Edtion compte</xsl:variable>
 	<xsl:variable name="LBL.EDITIONLISTEPREVISION">Edtion liste prévisions</xsl:variable>
 	<xsl:variable name="LBL.EDITIONPREVISION">Edtion d'une prévision</xsl:variable>
 	<xsl:variable name="LBL.EDITIONFLUX">Edtion d'un flux</xsl:variable>
@@ -36,29 +41,32 @@
 	<xsl:variable name="LBL.EQUILIBRER">Equilibrer</xsl:variable>
 	<xsl:variable name="LBL.EPARGNE">Epargne</xsl:variable>
 	<xsl:variable name="LBL.FERMER">Fermer</xsl:variable>
-	<xsl:variable name="LBL.FLUX">Flux</xsl:variable>
-	<xsl:variable name="LBL.FLUXMAITRE">Flux maitre</xsl:variable>
+	<xsl:variable name="LBL.FLUX">Flux</xsl:variable-->
+	<xsl:variable name="LBL.FIN">Fin</xsl:variable>
+	
+	<!--xsl:variable name="LBL.FLUXMAITRE">Flux maitre</xsl:variable>
 	<xsl:variable name="LBL.INTERPRETEURSQL">Interpréteur SQL</xsl:variable>
 	<xsl:variable name="LBL.LISTEDESCOMPTES">Liste des comptes</xsl:variable>
 	<xsl:variable name="LBL.LISTEFLUX">Liste des flux</xsl:variable>
 	<xsl:variable name="LBL.LISTEOPERATION">Liste des opérations</xsl:variable>
 	<xsl:variable name="LBL.MENUSEG">Clé;libelllé court;libellé long;ordre;</xsl:variable>
 	<xsl:variable name="LBL.MODEDEPAIEMENT">Mode de règlement</xsl:variable>
-	<xsl:variable name="LBL.MODEDEPAIEMENTDEF">Mode de paiement par défaut</xsl:variable>
-	<xsl:variable name="LBL.MODIFIER">Modifier</xsl:variable>
-	<xsl:variable name="LBL.MONTANT">Montant</xsl:variable>
+	<xsl:variable name="LBL.MODEDEPAIEMENTDEF">Mode de paiement par défaut</xsl:variable-->
+	<!--xsl:variable name="LBL.MODIFIER">Modifier</xsl:variable>
+	<xsl:variable name="LBL.MONTANT">Montant</xsl:variable-->
+	<xsl:variable name="LBL.LOGIN">Login</xsl:variable>
 	<xsl:variable name="LBL.MOTDEPASSE">Mot de passe</xsl:variable>
-	<xsl:variable name="LBL.NBMOIS">Nombre mois</xsl:variable>
+	<xsl:variable name="LBL.NBJOURS">Nombre de jours</xsl:variable>
 	<xsl:variable name="LBL.NOM">Nom</xsl:variable>
 	<xsl:variable name="LBL.NON">Non</xsl:variable>
-	<xsl:variable name="LBL.NORELEVE">No relevé</xsl:variable>
+	<!--xsl:variable name="LBL.NORELEVE">No relevé</xsl:variable>
 	<xsl:variable name="LBL.NUMEROCOMPTE">Numéro de compte</xsl:variable>
 	<xsl:variable name="LBL.NUMERORELEVE">Numéro de relevé</xsl:variable>
 	<xsl:variable name="LBL.OPERATION">Opération</xsl:variable>
-	<xsl:variable name="LBL.OPERATIONS">Opérations</xsl:variable>
+	<xsl:variable name="LBL.OPERATIONS">Opérations</xsl:variable-->
 	<xsl:variable name="LBL.OUI">Oui</xsl:variable>
 	<xsl:variable name="LBL.PERIODE">Période</xsl:variable>
-	<xsl:variable name="LBL.PERIODICITE">Périodicité</xsl:variable>
+	<!--xsl:variable name="LBL.PERIODICITE">Périodicité</xsl:variable>
 	<xsl:variable name="LBL.PREMIERRELEVE">Premier relevé</xsl:variable>
 	<xsl:variable name="LBL.PREMIEREANNEE">Première année</xsl:variable>
 	<xsl:variable name="LBL.PREMIERMOIS">Premier mois</xsl:variable>
@@ -94,6 +102,7 @@
 	<xsl:variable name="LBL.TOTAL">Total</xsl:variable>
 	<xsl:variable name="LBL.TOTALDEPENSES">Total dépenses</xsl:variable>
 	<xsl:variable name="LBL.TOTALPREVISIONS">Total prévisions</xsl:variable>
-	<xsl:variable name="LBL.TOTALRECETTES">Total recettes</xsl:variable>
+	<xsl:variable name="LBL.TOTALRECETTES">Total recettes</xsl:variable-->
+	<xsl:variable name="LBL.TYPE">Type</xsl:variable>
 	<xsl:variable name="LBL.VALIDER">Valider</xsl:variable>
 </xsl:stylesheet>

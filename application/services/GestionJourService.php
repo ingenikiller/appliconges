@@ -10,7 +10,7 @@
  *
  * @author ingeni
  */
-class GestionJourService {
+class GestionJourService extends ServiceStub{
     //put your code here
     
 	public function getListe($p_contexte){
@@ -21,7 +21,6 @@ class GestionJourService {
         $listeJour->name='ListeJour';
 		$listeJour->requestNoPage('JourConges', $l_clause);
 		$p_contexte->addDataBlockRow($listeJour);
-		
 	}
 	
 	

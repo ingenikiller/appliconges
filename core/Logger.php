@@ -27,7 +27,7 @@ class Logger {
 		fclose($this->_file); 
 	}
 	
-	private function __construct( $file, $mode ){
+	private function __construct ( $file, $mode ){
 		/*$this->_file = $file;
 		$this->mode = $mode;
 		$this->nb_log = 0;*/
