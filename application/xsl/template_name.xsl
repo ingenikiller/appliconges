@@ -81,7 +81,7 @@
                                 <xsl:value-of select="$LBL.TYPE"/>
                             </label>
                             <div class="col-sm-6">
-                                <select class="form-control" name="typeConges" id="typeConges" tabindex="30">
+                                <select class="form-control" name="typePeriode" id="typePeriode" tabindex="30">
 									<option value="rtt">RTT</option>
 									<option value="conges">CP</option>
 								</select>

@@ -7,7 +7,22 @@ $(document).ready(function() {
 	$( "#fin" ).datepicker();
 });
 
-
+/*********************************
+ * mise à jour des données 
+ * directement dans la liste
+ *********************************/
+var majPeriode = function(idperiode, nomchamp, nbjour) {
+	var params = 'idperiode='+idperiode+'&'+nomchamp+'='+nbjour;
+	$.getJSON({ 
+		url: "index.php?domaine=periode&service=update",
+		data: params,
+		success: function(retour) {
+			if(traiteRetourAjax(retour)){
+				fermeChampEditable(nomchamp+'-'+idperiode);
+			}
+		}
+	});
+}
 
 /*********************************
  * recherche et affiche les  
@@ -32,14 +47,19 @@ function alimenterPeriodes() {
 			for(i=0; i<nb; i++) {
 				var row = $('<tr typetr="periode"/>');
 				row.append($('<td/>').text(tabJson[i].debut));
-				row.append($('<td  class="text-center"/>').text(tabJson[i].fin));
+				
+				
+				//row.append($('<td  class="text-center"/>').text(tabJson[i].fin));
+				row.append(creerCelluleEditable('fin', tabJson[i].idperiode, tabJson[i].fin, majPeriode, 'date'));
+				
+				
 				row.append($("<td/>").text(tabJson[i].typePeriode));
-				var tdnbjour = $('<td align="right"/>').text(tabJson[i].nbjour);
-				/*$(tdnbjour).dblclick(function(){
+				/*var tdnbjour = $('<td align="right" id="tdnbjour'+tabJson[i].idperiode+'"/>').text(tabJson[i].nbjour);
+				$(tdnbjour).dblclick(function(){
 					transformeNbJourEditable(this);
 				});*/
 				
-				row.append(tdnbjour);
+				row.append(creerCelluleEditable('nbjour', tabJson[i].idperiode, tabJson[i].nbjour, majPeriode, 'numerique'));
 				
 				//row.append($('<label for="affichage-'+tabJson[i].idperiode+'"></label>'));
 				var affichage =$('<input type="checkbox" id="affichage-'+tabJson[i].idperiode+'" value="'+tabJson[i].idperiode+'"/>');
@@ -75,8 +95,6 @@ function editerPeriode(idperiode) {
 	
 	if(idperiode!='') {
 		var params = "idperiode="+idperiode;
-	
-	
 		$.getJSON(
 			"index.php?domaine=periode&service=getone",
 			data=params,
@@ -103,7 +121,6 @@ function editerPeriode(idperiode) {
 		document.periode.debut.value='';
 		document.periode.fin.value='';
 		document.periode.nbjour.value=0;
-		//document.operation.date.value=;
 		
 		$("div#boitePeriode").dialog({
 			resizable: false,
@@ -121,7 +138,7 @@ function soumettre(form) {
 	}
 	
 	var service = form.service.value;
-	$.ajax({ 
+	$.getJSON({ 
 		url: "index.php?domaine=periode&service="+service,
 		data: { "idperiode": form.idperiode.value,
 				"debut": form.debut.value,
@@ -130,31 +147,16 @@ function soumettre(form) {
 				"nbjour": form.nbjour.value
 		}, 
 		success: function(retour) {
-			//getSoldeCompte(form.noCompte.value, 'solde');
-			//si on est en création, on garde la popup ouverte, sinon, on la ferme
-			if(service=='create') {
-				form.idperiode.value='';
-				form.debut.value='';
-				form.fin.value='';
-				form.typePeriode.value='';
-				form.nbjour.focus();
-			} else {
+			if (traiteRetourAjax(retour)) {
 				$("div#boitePeriode").dialog('close');
+				alimenterPeriodes();
 			}
-			
-			//maj de la liste des opérations
-			//pagination('recherche');
-			alimenterPeriodes();
 			return false;
 		} 
 	});
 	return false;
 }
 
-function transformeNbJourEditable(td) {
-	var valeur = $(td).text();
-	var input = $('<input type="text" />');
-	$(input).val(valeur);
-	$(td).text('');
-	$(td).append(input);
-}
+
+
+

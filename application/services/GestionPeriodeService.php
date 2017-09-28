@@ -11,8 +11,7 @@
  * @author ingeni
  */
 class GestionPeriodeService extends ServiceStub {
-    //put your code here
-    
+
 	public function getListeActive($p_contexte){
 		$reqJourPris = 'SELECT COALESCE(SUM(duree), 0) AS total FROM periode LEFT JOIN jourConges ON periode.user=jourConges.user AND jourConges.jour BETWEEN periode.debut AND periode.fin AND jourConges.typePeriode LIKE CONCAT(periode.typePeriode, \'%\') LEFT JOIN typePeriode ON typePeriode.typePeriode = jourConges.typePeriode WHERE periode.debut=\'$parent->debut\' AND periode.fin=\'$parent->fin\' AND jourConges.jour < CURDATE() GROUP BY debut, fin , nbjour, periode.typePeriode ORDER BY debut';
 		$joursPris= new ListDynamicObject();
@@ -59,11 +58,10 @@ class GestionPeriodeService extends ServiceStub {
     public function create(ContextExecution $p_contexte){
 		$periode = new Periode();
         $periode->fieldObject($p_contexte->m_dataRequest);
-		$periode->user = $p_contexte->getUser();
+		Logger::getInstance()->addLogMessage('user create:'.$p_contexte->getUser()->userId);
+		$periode->user = $p_contexte->getUser()->userId;
         $periode->create();
-        $reponse = new ReponseAjax();
-        $reponse->status='OK';
-        $p_contexte->addDataBlockRow($reponse);
+        $p_contexte->ajoutReponseAjaxOK();
     }
     
 	public function update(ContextExecution $p_contexte){
@@ -73,7 +71,18 @@ class GestionPeriodeService extends ServiceStub {
 		$periode->idperiode = $idperiode;
 		$periode->load();
         $periode->fieldObject($p_contexte->m_dataRequest);
-		$periode->update();
+		
+		$nbperiode=PeriodeCommun::controleChevauchement($periode);
+		Logger::getInstance()->addLogMessage('requete nbperiode:'.$nbperiode);
+		$reponse = new ReponseAjax();
+		if($nbperiode==0) {
+			$periode->update();
+			$reponse->status = 'OK';
+		} else {
+			$reponse->status = 'KO';
+			$reponse->message = 'Chevauchemnt avec au moins une autre période';
+		}
+		$p_contexte->addDataBlockRow($reponse);
 	}
 		
 	public function delete(ContextExecution $p_contexte){
@@ -93,6 +102,7 @@ class GestionPeriodeService extends ServiceStub {
 		}*/
 		$periode->affichage = $affichage;
 		$periode->update();
+		$p_contexte->ajoutReponseAjaxOK();
 	}
 }
 

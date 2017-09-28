@@ -44,6 +44,7 @@
     <xsl:template name="js.module.sheet">
         <script language="JavaScript" src="application/js/communFormulaire.js" type="text/javascript"/>
         <script language="JavaScript" src="application/js/datepicker.js" type="text/javascript"/>
+		<script language="JavaScript" src="application/js/celluleEditable.js" type="text/javascript"/>
         <script language="JavaScript" src="application/js/periode.js" type="text/javascript"/>
     </xsl:template>
 </xsl:stylesheet>

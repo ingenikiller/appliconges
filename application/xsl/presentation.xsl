@@ -73,6 +73,7 @@
 			<script type="text/javascript" src="application/js/communFormulaire.js" charset="iso-8859-1">&#160;</script>
 			<script type="text/javascript" src="application/js/dateFormat.js" charset="iso-8859-1">&#160;</script>
 			<script type="text/javascript" src="application/js/communJson.js" charset="iso-8859-1">&#160;</script-->
+			<script type="text/javascript" src="application/js/core_ajax.js" charset="iso-8859-1">&#160;</script>
 			<script type="text/javascript" src="application/js/touchefonction.js" charset="iso-8859-1">&#160;</script>
 			
 			<link href="application/css/principal.css" rel="stylesheet" type="text/css"/>

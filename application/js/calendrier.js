@@ -325,7 +325,9 @@ function ajaxMajJour(jour, action, typePeriode){
 		dataType: 'json',
 		data: params,
 		success : function(resultat, statut, erreur){
-			majPeriodes();
+			if(traiteRetourAjax(resultat)) {
+				majPeriodes();				
+			}
 		}
 	});
 }

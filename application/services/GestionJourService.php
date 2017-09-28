@@ -29,6 +29,7 @@ class GestionJourService extends ServiceStub{
         $jour->fieldObject($p_contexte->m_dataRequest);
 		$jour->user = $p_contexte->getUser();
 		$jour->create();
+		$p_contexte->ajoutReponseAjaxOK();
     }
     
 	public function update(ContextExecution $p_contexte){
@@ -36,6 +37,7 @@ class GestionJourService extends ServiceStub{
         $jour->fieldObject($p_contexte->m_dataRequest);
 		$jour->user = $p_contexte->getUser();
 		$jour->update();
+		$p_contexte->ajoutReponseAjaxOK();
 	}
 	
 	
@@ -44,6 +46,7 @@ class GestionJourService extends ServiceStub{
         $jour->fieldObject($p_contexte->m_dataRequest);
 		$jour->user = $p_contexte->getUser();
 		$jour->delete();
+		$p_contexte->ajoutReponseAjaxOK();
 	}
 	
 }
