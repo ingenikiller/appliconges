@@ -58,7 +58,7 @@ class GestionPeriodeService extends ServiceStub {
     public function create(ContextExecution $p_contexte){
 		$periode = new Periode();
         $periode->fieldObject($p_contexte->m_dataRequest);
-		Logger::getInstance()->addLogMessage('user create:'.$p_contexte->getUser()->userId);
+		$this->getLogger('user create:'.$p_contexte->getUser()->userId);
 		$periode->user = $p_contexte->getUser()->userId;
         $periode->create();
         $p_contexte->ajoutReponseAjaxOK();
@@ -73,7 +73,7 @@ class GestionPeriodeService extends ServiceStub {
         $periode->fieldObject($p_contexte->m_dataRequest);
 		
 		$nbperiode=PeriodeCommun::controleChevauchement($periode);
-		Logger::getInstance()->addLogMessage('requete nbperiode:'.$nbperiode);
+		$this->getLogger('requete nbperiode:'.$nbperiode);
 		$reponse = new ReponseAjax();
 		if($nbperiode==0) {
 			$periode->update();
