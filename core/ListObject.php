@@ -20,7 +20,7 @@ class ListObject extends ListStructure implements IList{
 	private $logger;
 	
 	final public function __construct(){
-		//parent::__construct();
+		parent::__construct();
 		$this->logger = Logger::getRootLogger();
 	}
 	
