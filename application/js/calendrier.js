@@ -338,7 +338,7 @@ function ajaxMajJour(jour, action, typePeriode){
  *********************************/
 function majPeriodes() {
 	$.ajax({
-		url: "index.php?domaine=periode&service=getListe",
+		url: "index.php?domaine=periode&service=getlisteactive",
 		async: true,
 		dataType: 'json',
 		success : function(resultat, statut, erreur){
