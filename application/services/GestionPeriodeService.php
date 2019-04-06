@@ -23,8 +23,18 @@ class GestionPeriodeService extends ServiceStub {
         $joursPris->name='JoursPris';
         $joursPris->setAssociatedRequest(null, $reqJourPris);
 		
+		//jour pris entre le 01/11 et 31/12
+		$reqFrac = 'SELECT COALESCE(SUM(duree), 0) AS total FROM periode 
+			LEFT JOIN jourConges ON periode.user=jourConges.user AND jourConges.jour BETWEEN CONCAT(\'$parent->annee\', \'-11-01\') AND periode.fin AND jourConges.typePeriode LIKE CONCAT(periode.typePeriode, \'%\') 
+			LEFT JOIN typePeriode ON typePeriode.typePeriode = jourConges.typePeriode 
+			WHERE periode.debut=\'$parent->debut\' AND periode.fin=\'$parent->fin\' AND periode.typePeriode=\'$parent->typePeriode\'
+			GROUP BY debut, fin , nbjour, periode.typePeriode 
+			ORDER BY debut';
+		$joursFrac= new ListDynamicObject();
+        $joursFrac->name='JoursFrac';
+        $joursFrac->setAssociatedRequest(null, $reqFrac);
 		
-		$l_requete = 'SELECT idperiode, debut, fin , nbjour, periode.typePeriode, affichage, COALESCE(SUM(duree), 0) AS total FROM periode 
+		$l_requete = 'SELECT idperiode, debut, fin , nbjour, periode.typePeriode, affichage, COALESCE(SUM(duree), 0) AS total, SUBSTR(debut, 1, 4) AS annee FROM periode 
 			LEFT JOIN jourConges ON periode.user=jourConges.user AND jourConges.jour BETWEEN periode.debut AND periode.fin AND jourConges.typePeriode LIKE CONCAT(periode.typePeriode, \'%\')
 			LEFT JOIN typePeriode ON typePeriode.typePeriode = jourConges.typePeriode 
 			WHERE affichage=1
@@ -34,12 +44,13 @@ class GestionPeriodeService extends ServiceStub {
 		$listePeriodes = new ListDynamicObject();
         $listePeriodes->name = 'ListePeriodes';
 		$listePeriodes->setAssociatedKey($joursPris);
+		$listePeriodes->setAssociatedKey($joursFrac);
         $listePeriodes->request($l_requete);
         $p_contexte->addDataBlockRow($listePeriodes);
 	}
 	
 	public function getListe($p_contexte){
-		$l_requete = 'SELECT idperiode, debut, fin , nbjour, periode.typePeriode, affichage FROM periode';
+		$l_requete = 'SELECT idperiode, debut, fin , nbjour, periode.typePeriode, affichage FROM periode ORDER BY fin DESC, typePeriode';
 		
 		$listePeriodes = new ListDynamicObject();
         $listePeriodes->name = 'ListePeriodes';
@@ -60,7 +71,7 @@ class GestionPeriodeService extends ServiceStub {
     public function create(ContextExecution $p_contexte){
 		$periode = new Periode();
         $periode->fieldObject($p_contexte->m_dataRequest);
-		$this->getLogger('user create:'.$p_contexte->getUser()->userId);
+		$this->getLogger()->debug('user create:'.$p_contexte->getUser()->userId);
 		$periode->user = $p_contexte->getUser()->userId;
         $periode->create();
         $p_contexte->ajoutReponseAjaxOK();
@@ -75,14 +86,14 @@ class GestionPeriodeService extends ServiceStub {
         $periode->fieldObject($p_contexte->m_dataRequest);
 		
 		$nbperiode=PeriodeCommun::controleChevauchement($periode);
-		$this->getLogger('requete nbperiode:'.$nbperiode);
+		$this->getLogger()->debug('requete nbperiode:'.$nbperiode);
 		$reponse = new ReponseAjax();
 		if($nbperiode==0) {
 			$periode->update();
 			$reponse->status = 'OK';
 		} else {
 			$reponse->status = 'KO';
-			$reponse->message = 'Chevauchemnt avec au moins une autre période';
+			$reponse->message = 'Chevauchement avec au moins une autre période';
 		}
 		$p_contexte->addDataBlockRow($reponse);
 	}

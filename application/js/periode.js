@@ -103,6 +103,7 @@ function editerPeriode(idperiode) {
 				document.periode.idperiode.value=json[0].idperiode;
 				document.periode.debut.value=json[0].debut;
 				document.periode.fin.value=json[0].fin;
+				document.periode.typePeriode.value=json[0].typePeriode;
 				document.periode.nbjour.value=json[0].nbjour.replace(',','');
 				
 				$("div#boitePeriode").dialog({
@@ -120,6 +121,7 @@ function editerPeriode(idperiode) {
 		document.periode.idperiode.value='';
 		document.periode.debut.value='';
 		document.periode.fin.value='';
+		document.periode.typePeriode.value='';
 		document.periode.nbjour.value=0;
 		
 		$("div#boitePeriode").dialog({

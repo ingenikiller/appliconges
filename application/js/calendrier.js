@@ -83,10 +83,16 @@ function alimenterPeriodes() {
 					}
 				}
 				
+				var frac = 0;
+				if(tabJson[i].associatedObjet[1].tabResult[0] != null){
+					frac = reste + Number(tabJson[i].associatedObjet[1].tabResult[0].total);
+				}
+				
 				//si la période est déjà affichée
 				if( $("#totalPositionne"+codeLigne).length) {
 					$("#totalPositionne"+codeLigne).text(tabJson[i].total);
 					$("#reste"+codeLigne).text(reste);
+					
 					$('#periode'+codeLigne).removeClass();
 					$('#periode'+codeLigne).addClass(styleRow);
 				} else {
@@ -97,8 +103,14 @@ function alimenterPeriodes() {
 					row.append($("<td/>").text(tabJson[i].typePeriode));
 					row.append($('<td align="right" id="'+"totalDispo"+codeLigne+'"/>').text(totalDispo));
 					row.append($('<td align="right" id="'+"totalPositionne"+codeLigne+'"/>').text(totalPositionne));
-					row.append($('<td align="right"/>').text(totalPris));
 					row.append($('<td align="right" id="'+"reste"+codeLigne+'"/>').text(reste));
+					row.append($('<td align="right"/>').text(totalPris));
+					if(tabJson[i].typePeriode=='conges') {
+						row.append($('<td align="right" id="'+"frac"+codeLigne+'"/>').text(frac));
+					} else {
+						row.append($('<td align="right" id="'+"frac"+codeLigne+'"/>').text('NA'));
+					}
+					
 					$("#tableauPeriodes").append(row);
 				}
 			}
@@ -221,6 +233,8 @@ function ajouteJoursMois(ligne, annee, mois){
 		if(date.getDate() == j){
 			var jour = date.getDay();
 			ligne.append($("<td id=\""+annee+'-'+pad(mois+1, 2, '0')+'-'+pad(j, 2, '0')+"\" jour=\""+tabJour[jour]+ "\" type=\"jour\" typePeriode=\"inactif\"/>").append('<img src="application/images/'+tabJour[jour]+'.png"/>'));//text(tabJour[jour])); //""));
+			//ligne.append($("<td id=\""+annee+'-'+pad(mois+1, 2, '0')+'-'+pad(j, 2, '0')+"\" jour=\""+tabJour[jour]+ "\" type=\"jour\" typePeriode=\"inactif\">"+tabJour[jour]+"</td>"));
+			//.append('<img src="application/images/'+tabJour[jour]+'.png"/>'));//text(tabJour[jour])); //""));
 		}
 	}
 }
@@ -365,6 +379,19 @@ function majPeriodes() {
 				
 				$("#totalPositionne"+codeLigne).text(totalPositionne);
 				$("#reste"+codeLigne).text(reste);
+				
+				
+				var frac = 0;
+				if(tabJson[i].associatedObjet[1].tabResult[0] != null){
+					frac = reste + Number(tabJson[i].associatedObjet[1].tabResult[0].total);
+				}
+				
+				
+				if(tabJson[i].typePeriode=='conges') {
+					$("#frac"+codeLigne).text(frac);
+				}
+				
+				
 				$('#periode'+codeLigne).removeClass();
 				$('#periode'+codeLigne).addClass(styleRow);
 			}
@@ -412,7 +439,7 @@ function alimenteJoursFeries(anneeDebutPeriode, anneeFinPeriode) {
 			for(i=0; i<nb; i++) {
 				var caseId = tabJson[i].dateFerie;
 				$( "#"+caseId ).removeClass();
-				$( "#"+caseId ).addClass('jour_ferie');
+				$( "#"+caseId ).addClass('jour_tableau jour_ferie');
 			}
 		}
 	});
@@ -429,6 +456,7 @@ function activeF2(event){
 	$('input:radio[name="radioChoixType"][value="rtt"]').click();
 	return false;
 }
+
 function activeF3(event){
 	bloqueTouchesFonctions(event);
 	$('input:radio[name="radioChoixType"][value="conges"]').click();

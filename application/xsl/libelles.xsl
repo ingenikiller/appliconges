@@ -4,7 +4,6 @@
 	<xsl:variable name="LBL.AFFICHAGE">Affichage</xsl:variable>
 	
 	<!--xsl:variable name="LBL.AFFICHER">Afficher</xsl:variable>
-	<xsl:variable name="LBL.ANNEE">Année</xsl:variable>
 	<xsl:variable name="LBL.ANNEES">Années</xsl:variable>
 	<xsl:variable name="LBL.CLE">Clé</xsl:variable>
 	<xsl:variable name="LBL.COMPTE">Compte</xsl:variable>
@@ -16,6 +15,7 @@
 	<xsl:variable name="LBL.CREDIT">Crédit</xsl:variable-->
 	
 	
+	<xsl:variable name="LBL.ANNEE">Année</xsl:variable>
 	<xsl:variable name="LBL.CREER">Créer</xsl:variable>
 	<xsl:variable name="LBL.DATE">Date</xsl:variable>
 	<xsl:variable name="LBL.DEBUT">Début</xsl:variable>
@@ -54,6 +54,7 @@
 	<xsl:variable name="LBL.MODEDEPAIEMENTDEF">Mode de paiement par défaut</xsl:variable-->
 	<!--xsl:variable name="LBL.MODIFIER">Modifier</xsl:variable>
 	<xsl:variable name="LBL.MONTANT">Montant</xsl:variable-->
+	<xsl:variable name="LBL.MODIFIER">Modifier</xsl:variable>
 	<xsl:variable name="LBL.LOGIN">Login</xsl:variable>
 	<xsl:variable name="LBL.MOTDEPASSE">Mot de passe</xsl:variable>
 	<xsl:variable name="LBL.NBJOURS">Nombre de jours</xsl:variable>

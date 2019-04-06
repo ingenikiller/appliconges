@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 	<domaines>
-	
 		<domaine name="jour">
 			<service name="create"   classe="GestionJourService" methode="create"   isPrivee="true" render="json"/>
 			<service name="delete"   classe="GestionJourService" methode="delete"   isPrivee="true" render="json"/>
@@ -9,10 +8,14 @@
 			<service name="update"   classe="GestionJourService" methode="update"   isPrivee="true" render="json"/>
 		</domaine>
 		<domaine name="jourferie">
+			<service name="creerjourannee" classe="GestionJourFerieService" methode="creerJourAnnee" isPrivee="true" render="json"/>
 			<service name="getpage" classe="GestionJourFerieService" methode="fictive" isPrivee="true" xsl="xsl/jours_feries.xsl"/>
 			<service name="getlisteperiode" classe="GestionJourFerieService" methode="getListePeriode" isPrivee="true" render="json"/>
 			<service name="getliste" classe="GestionJourFerieService" methode="getListe" isPrivee="true" render="json"/>
 			<service name="delete" classe="GestionJourFerieService" methode="delete" isPrivee="true" render="json"/>
+			<service name="getlisteannee" classe="GestionJourFerieService" methode="getListeAnnee" isPrivee="true" render="json"/>
+			<service name="getlistejourannee" classe="GestionJourFerieService" methode="getListeJourAnnee" isPrivee="true" render="json"/>
+			<service name="majjoursferies" classe="GestionJourFerieService" methode="majJoursFeries" isPrivee="true" render="json"/>
 		</domaine>
 		<domaine name="calendrier">
 			<service name="getpage" classe="Factice" methode="fictive" xsl="xsl/calendrier.xsl" isPrivee="true"/>

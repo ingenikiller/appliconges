@@ -1,8 +1,18 @@
 
+.container {
+	width: 1200px;
+}
+
 /************************************************
  * Balises de contenu
  ************************************************/
 
+td
+{
+	-webkit-user-select: none;
+	-moz-user-select: none;
+}	
+ 
 .jour_ouvre
 {
 	background-color: #FFFFFF;
@@ -54,5 +64,5 @@
 }
 
 .th_mois_encours {
-	color: black;
+	color: blue;
 }

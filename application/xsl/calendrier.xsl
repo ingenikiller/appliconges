@@ -11,7 +11,7 @@
 		<div class="col-sm-8">	
 			<table id="tableauCalendrier" class="formulaire"/>
 		</div>
-		<aside class="col-sm-4">
+		<div class="col-sm-4">
 			<center>
 				<div id="radio">
 					<input type="radio" id="radio1" name="radioChoixType" value="inactif" checked="checked"/><label for="radio1">Inactif</label>
@@ -36,17 +36,21 @@
 				<br/>
 				<table id="tableauPeriodes" class="formulaire">
 					<tr>
+						<th colspan="8">Périodes</th>
+					</tr>
+					<tr>
 						<th>Date début</th>
 						<th>Date fin</th>
-						<th>Type conges</th>
-						<th>Disponibles</th>
+						<th>Type</th>
+						<th>A poser</th>
 						<th>Saisis</th>
-						<th>Pris</th>
 						<th>Reste</th>
+						<th>Pris</th>
+						<th>Frac</th>
 					</tr>
 				</table>
 			</center>	
-		</aside>
+		</div>
 	</section>
 	<br/>
 </xsl:template>

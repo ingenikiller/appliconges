@@ -15,6 +15,4 @@ abstract class ServiceStub {
 	
 }
 
-
-
 ?>

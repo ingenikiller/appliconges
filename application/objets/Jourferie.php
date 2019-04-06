@@ -1,12 +1,14 @@
 <?php
 class Jourferie extends SavableObject {
-	static private $key='dateFerie';
+	static private $key='annee,nom';
 	public function getPrimaryKey(){
 		return self::$key;
 	}
-	public $dateFerie=NULL;
+	public $annee=NULL;
 	
-	public $nom;
+	public $nom=NULL;
+	
+	public $dateFerie;
 	
 }
 ?>

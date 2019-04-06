@@ -9,34 +9,44 @@
                     <xsl:call-template name="formulaireJson"/>
                 </form>
 				<xsl:call-template name="periodeEdition"/>
-				<!--button type="button" class="btn btn-primary" id="" name="" value="{$LBL.CREER}" onclick="editerPeriode('');">
-					<span class="glyphicon glyphicon-plus"/>
-				</button-->
-				<div class="input-group">
-					<input type="text" class="form-control" placeholder="{$LBL.DATE}"/>
-					<!--i class="glyphicon glyphicon-calendar form-control-feedback"></i-->
-					  <span class="input-group-btn">
-						<button class="btn btn-default" type="button">Go!</button>
-					  </span>
-					<!--span class="glyphicon glyphicon-calendar"/-->
-					<!-- glyphicon glyphicon-calendar -->
+				
+				<form id="creationanneejourferie" onsubmit="return creerAnnee();" class="form-inline">
+					<div class="input-group">
+						<input type="text" id="nouvelleAnnee" class="form-control" placeholder="{$LBL.ANNEE}" readonly="readonly"/>
+							<span class="input-group-btn">
+								<button class="btn btn-default" type="submit">Créer</button>
+							</span>
+					</div>
+				</form>
+				<div class="col col-lg4 form-group">
+					<label for="annee" class="col-sm-4 form-control-label">
+						<xsl:value-of select="$LBL.ANNEE"/>
+					</label>
+					<div class="col-sm-6">
+						<select name="listeAnnee" id="listeAnnee" class="form-control" onchange="rechercheanneejoursferies(this.value)">&#160;</select>
+					</div>
 				</div>
-                <table class="table table-stripedtable-bordered" name="tableauResultat" id="tableauResultat">
-                    <thead>
-                        <tr>
-                            <th align="text-center">
-                                <xsl:value-of select="$LBL.DATE"/>
-                            </th>
-                            <th class="text-center">
-                                <xsl:value-of select="$LBL.NOM"/>
-                            </th>
-							<th class="text-center">
-                                <xsl:value-of select="$LBL.ACTIONS"/>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody id="tbodyResultat"/>
-                </table>
+				<br/>
+				<!-- affichage liste des jours fériés d'une année -->
+				<div id="divListe" style="display:none;">
+					<form id="modifjourferie" onsubmit="return modificationJourFerie(this);" class="form-inline">
+						<input type="hidden" id="anneeModif"/>
+						<table class="table table-stripedtable-bordered" name="tableauResultat" id="tableauResultat">
+							<thead>
+								<tr>
+									<th align="text-center">
+										<xsl:value-of select="$LBL.NOM"/>
+									</th>
+									<th class="text-center">
+										<xsl:value-of select="$LBL.DATE"/>
+									</th>
+								</tr>
+							</thead>
+							<tbody id="tbodyResultat"/>
+						</table>
+						<input type="submit" class="btn btn-primary" value="{$LBL.MODIFIER}"/>
+					</form>
+				</div>
                 <br/>
             </div>
         </div>
