@@ -8,7 +8,7 @@ class GestionJourFerieService extends ServiceStub {
 		$l_clause="dateFerie BETWEEN CONCAT($anneeDebutPeriode,'-01-01') AND CONCAT($anneeFinPeriode,'-12-31')";
 		$listeJour = new ListObject();
         $listeJour->name='ListeJourFerie';
-		$listeJour->requestNoPage('JourFerie', $l_clause);
+		$listeJour->requestNoPage('Jourferie', $l_clause);
 		$p_contexte->addDataBlockRow($listeJour);
 	}
 	
@@ -20,7 +20,7 @@ class GestionJourFerieService extends ServiceStub {
         }
 		$listeJour = new ListObject();
         $listeJour->name='ListeJourFerie';
-		$listeJour->request('JourFerie', null, $page);
+		$listeJour->request('Jourferie', null, $page);
 		$p_contexte->addDataBlockRow($listeJour);
 	}
 
@@ -45,7 +45,7 @@ class GestionJourFerieService extends ServiceStub {
 		$l_clause="dateFerie LIKE CONCAT($annee, '%') ORDER BY dateFerie";
 		$listeJour = new ListObject();
         $listeJour->name='ListeJourFerie';
-		$listeJour->request('JourFerie', $l_clause);
+		$listeJour->request('Jourferie', $l_clause);
 		$p_contexte->addDataBlockRow($listeJour);
 	}
 	

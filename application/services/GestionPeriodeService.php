@@ -14,9 +14,9 @@ class GestionPeriodeService extends ServiceStub {
 
 	public function getListeActive($p_contexte){
 		$reqJourPris = 'SELECT COALESCE(SUM(duree), 0) AS total FROM periode 
-			LEFT JOIN jourConges ON periode.user=jourConges.user AND jourConges.jour BETWEEN periode.debut AND periode.fin AND jourConges.typePeriode LIKE CONCAT(periode.typePeriode, \'%\') 
-			LEFT JOIN typePeriode ON typePeriode.typePeriode = jourConges.typePeriode 
-			WHERE periode.debut=\'$parent->debut\' AND periode.fin=\'$parent->fin\' AND periode.typePeriode=\'$parent->typePeriode\' AND jourConges.jour < CURDATE()  AND periode.user=\'$parent->user\'
+			LEFT JOIN jourconges ON periode.user=jourconges.user AND jourconges.jour BETWEEN periode.debut AND periode.fin AND jourconges.typePeriode LIKE CONCAT(periode.typePeriode, \'%\') 
+			LEFT JOIN typeperiode ON typeperiode.typePeriode = jourconges.typePeriode 
+			WHERE periode.debut=\'$parent->debut\' AND periode.fin=\'$parent->fin\' AND periode.typePeriode=\'$parent->typePeriode\' AND jourconges.jour < CURDATE()  AND periode.user=\'$parent->user\'
 			GROUP BY debut, fin , nbjour, periode.typePeriode 
 			ORDER BY debut';
 		$joursPris= new ListDynamicObject();
@@ -25,8 +25,8 @@ class GestionPeriodeService extends ServiceStub {
 		
 		//jour pris entre le 01/11 et 31/12
 		$reqFrac = 'SELECT COALESCE(SUM(duree), 0) AS total FROM periode 
-			LEFT JOIN jourConges ON periode.user=jourConges.user AND jourConges.jour BETWEEN CONCAT(\'$parent->annee\', \'-11-01\') AND periode.fin AND jourConges.typePeriode LIKE CONCAT(periode.typePeriode, \'%\') 
-			LEFT JOIN typePeriode ON typePeriode.typePeriode = jourConges.typePeriode 
+			LEFT JOIN jourconges ON periode.user=jourconges.user AND jourconges.jour BETWEEN CONCAT(\'$parent->annee\', \'-11-01\') AND periode.fin AND jourconges.typePeriode LIKE CONCAT(periode.typePeriode, \'%\') 
+			LEFT JOIN typeperiode ON typeperiode.typePeriode = jourconges.typePeriode 
 			WHERE periode.debut=\'$parent->debut\' AND periode.fin=\'$parent->fin\' AND periode.typePeriode=\'$parent->typePeriode\' AND periode.user=\'$parent->user\'
 			GROUP BY debut, fin , nbjour, periode.typePeriode 
 			ORDER BY debut';
@@ -37,8 +37,8 @@ class GestionPeriodeService extends ServiceStub {
 		$user = $p_contexte->getUser()->userId;
 		
 		$l_requete = "SELECT idperiode, debut, fin , nbjour, periode.typePeriode, affichage, COALESCE(SUM(duree), 0) AS total, SUBSTR(debut, 1, 4) AS annee, periode.user FROM periode 
-			LEFT JOIN jourConges ON periode.user=jourConges.user AND jourConges.jour BETWEEN periode.debut AND periode.fin AND jourConges.typePeriode LIKE CONCAT(periode.typePeriode, '%')
-			LEFT JOIN typePeriode ON typePeriode.typePeriode = jourConges.typePeriode 
+			LEFT JOIN jourconges ON periode.user=jourconges.user AND jourconges.jour BETWEEN periode.debut AND periode.fin AND jourconges.typePeriode LIKE CONCAT(periode.typePeriode, '%')
+			LEFT JOIN typeperiode ON typeperiode.typePeriode = jourconges.typePeriode 
 			WHERE affichage=1 and periode.user='$user'
 			GROUP BY idperiode, debut, fin , nbjour, periode.typePeriode, affichage 
 			ORDER BY debut";

@@ -19,13 +19,13 @@ class GestionJourService extends ServiceStub{
 		$l_clause="jour BETWEEN CONCAT($anneeDebutPeriode,'-01-01') AND CONCAT($anneeFinPeriode,'-12-31')";
 		$listeJour = new ListObject();
         $listeJour->name='ListeJour';
-		$listeJour->requestNoPage('JourConges', $l_clause);
+		$listeJour->requestNoPage('Jourconges', $l_clause);
 		$p_contexte->addDataBlockRow($listeJour);
 	}
 	
 	
     public function create(ContextExecution $p_contexte){
-        $jour = new JourConges();
+        $jour = new Jourconges();
         $jour->fieldObject($p_contexte->m_dataRequest);
 		$jour->user = $p_contexte->getUser()->userId;
 		$jour->create();
@@ -33,7 +33,7 @@ class GestionJourService extends ServiceStub{
     }
     
 	public function update(ContextExecution $p_contexte){
-		$jour = new JourConges();
+		$jour = new Jourconges();
         $jour->fieldObject($p_contexte->m_dataRequest);
 		$jour->user = $p_contexte->getUser()->userId;
 		$jour->update();
@@ -42,7 +42,7 @@ class GestionJourService extends ServiceStub{
 	
 	
 	public function delete(ContextExecution $p_contexte){
-		$jour = new JourConges();
+		$jour = new Jourconges();
         $jour->fieldObject($p_contexte->m_dataRequest);
 		$jour->user = $p_contexte->getUser()->userId;
 		$jour->delete();
