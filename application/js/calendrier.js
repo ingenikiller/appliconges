@@ -39,10 +39,22 @@ $(document).ready(function() {
 
 var tabJour=["D", 'L', 'M', 'M', 'J', 'V', 'S'];
 var tabMois=["Janvier", 'Fevrier', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Aout', 'Septembre', 'Octobre', 'Novembre', 'Decembre'];
-var tabCouleur={'inactif': 'jour_ouvre', "rtt1":"rtt_jour", "rtt2":"rtt_demi",'conges1':"conges_jour", 'conges2':"conges_demi"};
-var tabCouleurInverse={"green":"rtt", 'blue':"conges"};
+//var tabCouleur={'inactif': 'jour_ouvre', "rtt1":"rtt_jour", "rtt2":"rtt_demi",'conges1':"conges_jour", 'conges2':"conges_demi", 'cpa1':"cpa_jour", 'cpa2':"cpa_demi"};
 
-
+/*
+$("<style>")
+    .prop("type", "text/css")
+    .html("\
+    #my-window {\
+        position: fixed;\
+        z-index: 102;\
+        display:none;\
+        top:50%;\
+        left:50%;\
+    }")
+    .appendTo("head");
+	Noticed the back slashes? They are used to join strings that are on new lines. Leaving them out generates an error.
+*/
 /*********************************
  * recherche et affiche les  
  * périodes de congés/rtt
@@ -103,7 +115,7 @@ function alimenterPeriodes() {
 					row.append($("<td/>").text(tabJson[i].typePeriode));
 					row.append($('<td align="right" id="'+"totalDispo"+codeLigne+'"/>').text(totalDispo));
 					row.append($('<td align="right" id="'+"totalPositionne"+codeLigne+'"/>').text(totalPositionne));
-					row.append($('<td align="right" id="'+"reste"+codeLigne+'"/>').text(reste));
+					row.append($('<td align="right" id="'+"reste"+codeLigne+'" style="font-weight:bold;"/>').text(reste));
 					row.append($('<td align="right"/>').text(totalPris));
 					if(tabJson[i].typePeriode=='conges') {
 						row.append($('<td align="right" id="'+"frac"+codeLigne+'"/>').text(frac));
@@ -185,7 +197,13 @@ function genereLigneNumerosJours(){
 	var ligne=$("<tr/>");
 	ligne.append($("<td/><td/>"));
 	for(var i=1; i<=31; i++) {
-		ligne.append( $("<th/>").text(i) );
+		var dateJour = new Date();
+		var classe='';
+		if( i==dateJour.getDate()) {
+			classe='th_mois_encours';
+		}
+		var casetab = $("<th class="+classe+"/>").text(i);
+		ligne.append( casetab );
 	}
 	return ligne;
 }
@@ -326,13 +344,24 @@ function majCaseJour(idCase, typeJour){
  * par rapport au type de jour
  *********************************/
 function coloreCase(idCase, typeJour) {
-	$("td[id|='"+idCase+"']").addClass(tabCouleur[typeJour]);
+	//$("td[id|='"+idCase+"']").addClass(tabCouleur[typeJour]);
+	$("td[id|='"+idCase+"']").addClass(determineClasseJour(typeJour));
 	$("td[id|='"+idCase+"']").attr('typePeriode', typeJour);
+}
+
+function determineClasseJour(typeJour) {
+	if(typeJour=='inactif') {
+		return 'jour_ouvre';
+	}
+	var indice = typeJour.substring(typeJour.length - 1, typeJour.length);
+	var tab={1:"_jour", 2:"_demi"};
+	return typeJour.substring(0, typeJour.length-1)+tab[indice];
+	
 }
 
 
 function ajaxMajJour(jour, action, typePeriode){
-	var params="jour="+jour+"&typePeriode="+typePeriode;
+	var params="jour="+jour+"&typePeriode="+typePeriode;s
 	$.ajax({
 		url: "index.php?domaine=jour&service="+action,
 		async: true,
@@ -460,5 +489,10 @@ function activeF2(event){
 function activeF3(event){
 	bloqueTouchesFonctions(event);
 	$('input:radio[name="radioChoixType"][value="conges"]').click();
+	return false;
+}
+function activeF4(event){
+	bloqueTouchesFonctions(event);
+	$('input:radio[name="radioChoixType"][value="cpa"]').click();
 	return false;
 }

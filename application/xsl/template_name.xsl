@@ -84,6 +84,8 @@
                                 <select class="form-control" name="typePeriode" id="typePeriode" tabindex="30">
 									<option value="rtt">RTT</option>
 									<option value="conges">CP</option>
+									<option value="cpa">CP anticipés</option>
+									<option value="cps">CP sans solde</option>
 								</select>
                             </div>
                         </div>

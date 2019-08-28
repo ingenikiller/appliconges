@@ -1,6 +1,6 @@
 
 .container {
-	width: 1200px;
+	width: 1400px;
 }
 
 /************************************************
@@ -49,6 +49,30 @@ td
 	color: white;
 	background: -webkit-repeating-linear-gradient(135deg, #ffffff, #ffffff 5px, #7DDAFC 5px, #7DDAFC 10px);
 	background: repeating-linear-gradient(135deg, #ffffff, #ffffff 5px, #7DDAFC 5px, #7DDAFC 10px);
+}
+
+.cpa_jour
+{
+	background-color: #5cdcf8;	
+}
+.cpa_demi
+{
+	/*background-color: #7DDAFC;	*/
+	color: white;
+	background: -webkit-repeating-linear-gradient(135deg, #ffffff, #ffffff 5px, #5cdcf8 5px, #5cdcf8 10px);
+	background: repeating-linear-gradient(135deg, #ffffff, #ffffff 5px, #5cdcf8 5px, #5cdcf8 10px);
+}
+
+.cps_jour
+{
+	background-color: #BCA9F5;	
+}
+.cps_demi
+{
+	/*background-color: #7DDAFC;	*/
+	color: white;
+	background: -webkit-repeating-linear-gradient(135deg, #ffffff, #ffffff 5px, #BCA9F5 5px, #BCA9F5 10px);
+	background: repeating-linear-gradient(135deg, #ffffff, #ffffff 5px, #BCA9F5 5px, #BCA9F5 10px);
 }
 
 .periodeComplete {

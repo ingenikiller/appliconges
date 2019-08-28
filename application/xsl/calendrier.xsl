@@ -8,15 +8,17 @@
 
 <xsl:template name="Contenu">
 	<section class="row">
-		<div class="col-sm-8">	
+		<div class="col-sm-7">	
 			<table id="tableauCalendrier" class="formulaire"/>
 		</div>
-		<div class="col-sm-4">
+		<div class="col-sm-5">
 			<center>
 				<div id="radio">
 					<input type="radio" id="radio1" name="radioChoixType" value="inactif" checked="checked"/><label for="radio1">Inactif</label>
 					<input type="radio" id="radio2" name="radioChoixType" value="rtt"/><label for="radio2">RTT</label>
 					<input type="radio" id="radio3" name="radioChoixType" value="conges"/><label for="radio3">Congès</label>
+					<input type="radio" id="radio4" name="radioChoixType" value="cpa"/><label for="radio4">CP anticipés</label>
+					<input type="radio" id="radio5" name="radioChoixType" value="cps"/><label for="radio5">CP sans solde</label>
 				</div>
 
 				<br/>
@@ -31,6 +33,14 @@
 					<tr>
 						<td>Congès</td>
 						<td class="conges_jour">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</td>
+					</tr>
+					<tr>
+						<td>CP anticipés</td>
+						<td class="cpa_jour">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</td>
+					</tr>
+					<tr>
+						<td>CP sans solde</td>
+						<td class="cps_jour">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</td>
 					</tr>
 				</table>
 				<br/>
