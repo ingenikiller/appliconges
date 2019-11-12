@@ -26,9 +26,9 @@
 					  <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">Menu
 					  <span class="caret"></span></button>
 					  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-						<li><a href="index.php?domaine=calendrier&amp;service=getpage">Calendrier</a></li>
-						<li><a href="index.php?domaine=periode&amp;service=getpage">Période</a></li>
-						<li><a href="index.php?domaine=jourferie&amp;service=getpage">Jours fériés</a></li>
+						<li><a class="dropdown-item" href="index.php?domaine=calendrier&amp;service=getpage">Calendrier</a></li>
+						<li><a class="dropdown-item" href="index.php?domaine=periode&amp;service=getpage">Période</a></li>
+						<li><a class="dropdown-item" href="index.php?domaine=jourferie&amp;service=getpage">Jours fériés</a></li>
 					  </ul>
 					</div>
 					</row>
@@ -61,24 +61,31 @@
 				<xsl:value-of select="$HeadTitre"/>
 			</title>
 			
-			<link href="application/bootstrap/bootstrap-{$BOOTSTRAP-VERSION}-dist/css/bootstrap.min.css" rel="stylesheet"/>
-			<link href="application/jquery/jquery-ui-{$JQUERY-VERSION}.custom/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
+			<script src="front/js/popper.js">&#160;</script>
+			<link href="front/bootstrap/bootstrap-{$BOOTSTRAP-VERSION}-dist/css/bootstrap.min.css" rel="stylesheet"/>
+			<link href="front/jquery/jquery-ui-{$JQUERY-VERSION}.custom/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
+			<link href="front/font/css/open-iconic-bootstrap.css" rel="stylesheet" type="text/css"/>
 			
-			<script type="text/javascript" src="application/jquery/jquery-ui-{$JQUERY-VERSION}.custom/external/jquery/jquery.js" charset="iso-8859-1">&#160;</script>
-			<script type="text/javascript" src="application/bootstrap/bootstrap-{$BOOTSTRAP-VERSION}-dist/js/bootstrap.min.js" charset="iso-8859-1">&#160;</script>
 			
-			<script type="text/javascript" src="application/jquery/jquery-ui-{$JQUERY-VERSION}.custom/jquery-ui.min.js" charset="iso-8859-1">&#160;</script>
+			<script type="text/javascript" src="front/jquery/jquery-ui-{$JQUERY-VERSION}.custom/external/jquery/jquery.js" charset="iso-8859-1">&#160;</script>
+			<script type="text/javascript" src="front/bootstrap/bootstrap-{$BOOTSTRAP-VERSION}-dist/js/bootstrap.min.js" charset="iso-8859-1">&#160;</script>
+			
+			<script type="text/javascript" src="front/jquery/jquery-ui-{$JQUERY-VERSION}.custom/jquery-ui.min.js" charset="iso-8859-1">&#160;</script>
 			
 			<!--script type="text/javascript" src="application/js/commun.js" charset="iso-8859-1">&#160;</script>
 			<script type="text/javascript" src="application/js/communFormulaire.js" charset="iso-8859-1">&#160;</script>
 			<script type="text/javascript" src="application/js/dateFormat.js" charset="iso-8859-1">&#160;</script>
 			<script type="text/javascript" src="application/js/communJson.js" charset="iso-8859-1">&#160;</script-->
-			<script type="text/javascript" src="application/js/core_ajax.js" charset="iso-8859-1">&#160;</script>
-			<script type="text/javascript" src="application/js/touchefonction.js" charset="iso-8859-1">&#160;</script>
+			<script type="text/javascript" src="front/js/core_ajax.js" charset="iso-8859-1">&#160;</script>
+			<script type="text/javascript" src="front/js/touchefonction.js" charset="iso-8859-1">&#160;</script>
 			
-			<link href="application/css/principal.css" rel="stylesheet" type="text/css"/>
-			<link href="application/css/style.css" rel="stylesheet" type="text/css"/>
-			<link href="application/css/style_calendrier.css" rel="stylesheet" type="text/css"/>
+			<script src="front/core/session.js">&#160;</script>
+			
+			
+			<link href="front/css/bootstrap-force.css" rel="stylesheet" type="text/css"/>
+			<link href="front/css/principal.css" rel="stylesheet" type="text/css"/>
+			<link href="front/css/style.css" rel="stylesheet" type="text/css"/>
+			<link href="front/css/style_calendrier.css" rel="stylesheet" type="text/css"/>
 			
 			<xsl:call-template name="js.module.sheet"/>
 		</head>

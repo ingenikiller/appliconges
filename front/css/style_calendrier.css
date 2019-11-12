@@ -1,7 +1,21 @@
 
 .container {
-	width: 1400px;
+	max-width: 1400px;
 }
+
+
+form>fieldset>legend {
+
+    padding-left: 5px;
+    background-color: #3474f6;
+	color: white;
+
+}
+
+form>fieldset {
+	background-color : #E6E6E6;
+}
+
 
 /************************************************
  * Balises de contenu

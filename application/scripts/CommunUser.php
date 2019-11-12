@@ -18,12 +18,11 @@ class CommunUser {
 		$list = new ListObject();
 		$clause="nom='". $p_user ."' AND motDePasse='". $p_mdp . "'";
 		$list->request('Users', $clause);
-		if($list->nbLine!=1){
-			throw new FunctionnalException('nom ou mot de passe incorrect');
+		if(isset($list->tabResult[0])){
+			return $list->tabResult[0];			
+		} else {
+			return null;
 		}
-                
-                
-		return $list->tabResult[0];
 	}
 	
 	public static function getUser($p_connexion, $p_user) {
@@ -42,21 +41,5 @@ class CommunUser {
 		
 		return $p_connexion->fetchArray($l_result);
 	}
-	
-	/*public static function getListe(ContextExecution $p_contexte) {
-		$l_connexion = $p_contexte->getConnexion();
-		
-		$l_requete = 'SELECT * FROM INTERVENANTS';
-		Logger::getInstance()->addLogMessage('requete:' . $l_requete);
-		$l_result = $l_connexion->requeteBDD($l_requete);
-		$rowSet = new DataRowSet();
-		$rowSet->addRows($l_connexion, $l_result, 'UtilisateursListe', 'Utilisateur');
-		//print_r($rowSet);
-		$p_contexte->addDataBlockRow($rowSet);
-	}*/
-	
-	
-	
 }
-
 ?>

@@ -38,6 +38,7 @@ function rechercheanneejoursferies(annee) {
 	
 	if(annee=='') {
 		$('#divListe').hide();
+		return false;
 	}
 	
 	$.ajax({

@@ -3,23 +3,27 @@
 <xsl:import href="commun.xsl"/>
 
 <xsl:template name="js.module.sheet">
-	<script language="JavaScript" src="application/js/calendrier.js" type="text/javascript"/>
+	<script language="JavaScript" src="front/js/calendrier.js" type="text/javascript"/>
 </xsl:template>
 
 <xsl:template name="Contenu">
 	<section class="row">
-		<div class="col-sm-7">	
+		<div class="col-8">	
 			<table id="tableauCalendrier" class="formulaire"/>
 		</div>
-		<div class="col-sm-5">
+		<div class="col-4">
 			<center>
-				<div id="radio">
-					<input type="radio" id="radio1" name="radioChoixType" value="inactif" checked="checked"/><label for="radio1">Inactif</label>
-					<input type="radio" id="radio2" name="radioChoixType" value="rtt"/><label for="radio2">RTT</label>
-					<input type="radio" id="radio3" name="radioChoixType" value="conges"/><label for="radio3">Congès</label>
-					<input type="radio" id="radio4" name="radioChoixType" value="cpa"/><label for="radio4">CP anticipés</label>
-					<input type="radio" id="radio5" name="radioChoixType" value="cps"/><label for="radio5">CP sans solde</label>
-				</div>
+				
+				<fieldset>
+				<legend>Types de jour à saisir</legend>
+					<div id="radio">
+						<input type="radio" id="radio1" name="radioChoixType" value="inactif" checked="checked"/><label for="radio1">Inactif</label>
+						<input type="radio" id="radio2" name="radioChoixType" value="rtt"/><label for="radio2">RTT</label>
+						<input type="radio" id="radio3" name="radioChoixType" value="conges"/><label for="radio3">Congès</label>
+						<input type="radio" id="radio4" name="radioChoixType" value="cpa"/><label for="radio4">CP anticipés</label>
+						<input type="radio" id="radio5" name="radioChoixType" value="cps"/><label for="radio5">CP sans solde</label>
+					</div>
+				</fieldset>
 
 				<br/>
 				<table class="formulaire">

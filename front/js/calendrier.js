@@ -33,7 +33,8 @@ $(document).ready(function() {
 	alimenterPeriodes();
 	
 	$( "#radio" ).controlgroup({
-      icon: false
+      icon: false,
+	  direction: "vertical"
     });
 });
 
@@ -361,7 +362,7 @@ function determineClasseJour(typeJour) {
 
 
 function ajaxMajJour(jour, action, typePeriode){
-	var params="jour="+jour+"&typePeriode="+typePeriode;s
+	var params="jour="+jour+"&typePeriode="+typePeriode;
 	$.ajax({
 		url: "index.php?domaine=jour&service="+action,
 		async: true,

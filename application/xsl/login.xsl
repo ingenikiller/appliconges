@@ -2,11 +2,9 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 	<xsl:import href="commun.xsl"/>
 	<xsl:template name="controleMenu">N</xsl:template>
-	<xsl:template name="onLoadTemplate">
-		<xsl:if	test="/root/user/userId!=''">
-			document.location.href='index.php?domaine=calendrier&amp;service=getpage';
-		</xsl:if>
-	</xsl:template>
+	<xsl:template name="js.module.sheet">
+        <script type="text/javascript" src="front/js/login.js" charset="iso-8859-1">&#160;</script>
+    </xsl:template>
 		
 	<xsl:template name="Contenu">
 		<center>
@@ -14,41 +12,43 @@
 			<br/>
 			<br/>
 			<br/>
-			<xsl:if test="/root/dial/messages/erreur!=''">
-				<p class="erreur">
-					<xsl:value-of select="/root/dial/messages/erreur"/>
-				</p>
-			</xsl:if>
-			<form method="post" action="index.php?domaine=technique&amp;service=connexion">
-				<table class="formulaire">
-					<tbody>
-						<tr>
-							<th align="left">
+			<div class="row justify-content-md-center">
+				<div class="col col-lg-4">
+					<form method="post" id="formconnexion">
+						<fieldset>
+							<legend>
 								<xsl:value-of select="$LBL.LOGIN"/>
-							</th>
-							<td colspan="1" rowspan="1">
-								<input name="nom"/>
-							</td>
-						</tr>
-						<tr>
-							<th align="left">
-								<xsl:value-of select="$LBL.MOTDEPASSE"/>
-							</th>
-							<td colspan="1" rowspan="1">
-								<input name="motDePasse" type="password"/>
-							</td>
-						</tr>
-						<tr>
-							<td colspan="2" rowspan="1" align="center">
-								<input class="bouton" type="submit" value="Connexion" name="valider"/>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-				<br/>
-				<br/>
-				<br/>
-			</form>
+							</legend>
+							<br/>
+							<div class="form-group row">
+								<label for="nom" class="col-sm-6 col-form-label">
+									Login
+								</label>
+								<div class="col-sm-6">
+									<input class="form-control" type="text" name="nom" id="nom" required="required"/>
+								</div>
+							</div>
+							<div class="form-group row">
+								<label for="motDePasse" class="col-sm-6 form-control-label">
+									Mot de passe
+								</label>
+								<div class="col-sm-6">
+									<input class="form-control" id="motDePasse" name="motDePasse" type="password" required="required"/>
+								</div>
+							</div>
+							<br/>
+							<div class="row justify-content-md-center">
+								<div class="col-md-auto">
+									<button type="submit" class="btn btn-primary">
+										Se connecter
+									</button>
+								</div>
+							</div>
+							<br/>
+						</fieldset>
+					</form>
+				</div>
+			</div>
 		</center>
 	</xsl:template>
 </xsl:stylesheet>

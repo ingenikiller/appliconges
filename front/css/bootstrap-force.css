@@ -1,0 +1,68 @@
+
+
+body {
+	font-size : 14px;
+	background-color: #FFFFFF;
+}
+
+.navbar {
+	background-color: #3474f6;
+	background-image: -webkit-linear-gradient(top,#3474f6 0,#3474f6 100%);
+	margin-bottom:0px;
+}
+
+.row {
+	font-size : 14px;
+}
+
+.table-striped > tbody > tr:nth-of-type(2n+1) {
+	background-color: #BFBEBE;
+}
+
+.form-control {
+	font-size : 14px;
+}
+
+.form-group {
+	margin-bottom : 5px;
+}
+
+.form-control-checkbox {
+	width : 0;
+}
+
+label {
+	padding-top: 5px;
+}
+
+.table > thead > tr > th,
+.table > tbody > tr > th,
+.table > tfoot > tr > th,
+.table > thead > tr > td,
+.table > tbody > tr > td,
+.table > tfoot > tr > td {
+	padding: 2px;
+}
+
+/*
+classes dropdown
+*/
+
+/*.dropdown-zone {
+	min-width: 600px;
+	background-color : #E6E6E6;
+	padding: 5px;
+}*/
+
+.barre_recherche_element {
+	padding-right: 0px;
+	padding-left: 0px;
+}
+.barre_recherche_input {
+	border-radius: 0px;
+}
+
+aside.formulaire {
+	background-color : #E6E6E6;
+	border-radius: 5px;
+}

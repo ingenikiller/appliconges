@@ -20,5 +20,6 @@ class Login extends ServiceStub{
 		
 		$p_contexte->addDataBlockRow($reponse);
 	}
+	
 }
 ?>

@@ -3,14 +3,14 @@
     <xsl:import href="template_name.xsl"/>
     <xsl:import href="commun.xsl"/>
     <xsl:template name="Contenu">
-        <div class="row">
-            <div class="col-lg-offset-4 col-lg-4">
+        <div class="row justify-content-md-center">
+            <div class="col-lg-4">
                 <form method="POST" name="recherche" id="recherche" onsubmit="return rechercherOperations(this);">
                     <xsl:call-template name="formulaireJson"/>
                 </form>
 				<xsl:call-template name="periodeEdition"/>
 				<button type="button" class="btn btn-primary" id="" name="" value="{$LBL.CREER}" onclick="editerPeriode('');">
-					<span class="glyphicon glyphicon-plus"/>
+					<span class="oi oi-plus">&#160;</span>
 				</button>
                 <table class="table table-stripedtable-bordered" name="tableauResultat" id="tableauResultat">
                     <thead>
@@ -42,9 +42,9 @@
         </div>
     </xsl:template>
     <xsl:template name="js.module.sheet">
-        <script language="JavaScript" src="application/js/communFormulaire.js" type="text/javascript"/>
-        <script language="JavaScript" src="application/js/datepicker.js" type="text/javascript"/>
-		<script language="JavaScript" src="application/js/celluleEditable.js" type="text/javascript"/>
-        <script language="JavaScript" src="application/js/periode.js" type="text/javascript"/>
+        <script language="JavaScript" src="front/js/communFormulaire.js" type="text/javascript"/>
+        <script language="JavaScript" src="front/js/datepicker.js" type="text/javascript"/>
+		<script language="JavaScript" src="front/js/celluleEditable.js" type="text/javascript"/>
+        <script language="JavaScript" src="front/js/periode.js" type="text/javascript"/>
     </xsl:template>
 </xsl:stylesheet>

@@ -77,7 +77,7 @@ function alimenterPeriodes() {
 				}
 				row.append($('<td align="right"/>').append(affichage).append($('<label for="affichage-'+tabJson[i].idperiode+'"></label>')));//text(tabJson[i].affichage));
 				
-				row.append($('<td class="text-center"/>').append('<a href="#" onclick="editerPeriode(\''+ tabJson[i].idperiode +'\')"><span class="glyphicon glyphicon-pencil"/></a>'));
+				row.append($('<td class="text-center"/>').append('<a href="#" onclick="editerPeriode(\''+ tabJson[i].idperiode +'\')"><span class="oi oi-pencil"/></a>'));
 				
 				$("#tbodyResultat").append(row);
 				$( affichage ).checkboxradio({
