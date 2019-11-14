@@ -1,8 +1,82 @@
 
 
+
+var tabTrad={
+	previousMonth : 'Mois précédent',
+	nextMonth     : 'Next Month',
+	months        : ['Janvier','Février','Mars','Avril','Mai','Juin', 'Juillet','Aoùt','Septembre','Octobre','Novembre','Décembre'],
+	weekdays      : ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'],
+	weekdaysShort : ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam']
+};
+
 $(document).ready(function() {
 	alimenterListeAnnees();
+	var $container = $("#divTableJoursFeries");
+
+	$container.handsontable({
+		licenseKey: "non-commercial-and-evaluation",
+		colHeaders: ['Libellé', 'Date'],
+		stretchH: 'last',
+		columns: [
+			//{type: 'checkbox'},
+			{data: 'nom', readOnly: true},
+			{data: 'dateFerie',
+				type: 'date',
+				dateFormat: 'YYYY-MM-DD',
+				correctFormat: true,
+				datePickerConfig: {
+					// First day of the week (0: Sunday, 1: Monday, etc)
+					firstDay: 1,
+					showWeekNumber: true,
+					numberOfMonths: 1,
+					i18n: tabTrad,
+					disableDayFn: function(date) {
+					// Disable Sunday and Saturday
+					return date.getDay() === 0 || date.getDay() === 6;
+					}
+				}
+			
+			
+			}
+		],
+		columnSorting: {
+			column: 1,
+			sortOrder: true
+		},
+		modifyRowData: function(row) {
+			//alert('after');
+		},
+		afterChange: function (change, source) {
+			if(change==null){
+				return;
+			}
+			
+			var hotInstance=$("#divTableJoursFeries").handsontable('getInstance');
+			
+			var indexDate = getColonneIndex(hotInstance, 'dateFerie');
+			var data= hotInstance.getDataAtCell(change[0][0],indexDate);
+			var colonne = change[0][1];
+			var valeur = change[0][3];
+			
+			var nom = hotInstance.getDataAtCell(change[0][0],0);
+
+			var params ='dateFerie='+valeur+'&annee='+$('#listeAnnee').val()+'&nom='+nom ;
+
+			$.ajax({
+				url: 'index.php?domaine=jourferie&service=update',
+				dataType: 'json',
+				type: 'POST',
+				data: params,
+				success: function () {
+				}
+			});
+		
+	  }
+	  
+	});
+	var hotInstance = $("#divTableJoursFeries").handsontable('getInstance');
 });
+
 
 
 function alimenterListeAnnees() {
@@ -46,46 +120,12 @@ function rechercheanneejoursferies(annee) {
 		dataType: 'json',
 		data: params,
 		success : function(resultat, statut, erreur){
-			tab = document.getElementById('tableauResultat');
-			$('tr[typetr=periode]').remove();
-			
-			var total = resultat[0].nbLineTotal;
-			var nbpage = Math.ceil(total/resultat[0].nbLine);
-			
-			$('#anneeModif').val(annee);
-			var nb=resultat[0].nbLine;
-			var tabJson = resultat[0].tabResult;
-			var i=0;
-			for(i=0; i<nb; i++) {
-				var row = $('<tr typetr="periode"/>');
-				row.append($("<td/>").text(tabJson[i].nom));
-				row.append($("<td/>").append('<input type="hidden" class="form-control" id="nom-'+i+'" value="'+tabJson[i].nom+'" "/><input type="date" class="form-control" id="dateFerie-'+i+'" value="'+tabJson[i].dateFerie+'"/>'));
-				$("#tbodyResultat").append(row);
-			}
 			$('#divListe').show();
+			$("#divTableJoursFeries").handsontable('getInstance').loadData(resultat[0].tabResult);
+			$("#divTableJoursFeries").handsontable('getInstance').render();
 		}
 	});
 }
-
-
-function modificationJourFerie() {
-	var params='annee='+$('#anneeModif').val();
-	var i=0;
-	for(var i=0; i<11; i++) {
-		params+='&nom-'+i+'='+$('#nom-'+i).val()+'&dateFerie-'+i+'='+$('#dateFerie-'+i).val();
-	}
-	
-	$.ajax({
-		url: "index.php?domaine=jourferie&service=majjoursferies",
-		dataType: 'json',
-		data: params,
-		success : function(resultat, statut, erreur){
-			$('#divListe').hide();
-		}
-	});
-	return false;
-}
-
 
 function creerAnnee() {
 	var params = "anneeacreer="+$('#nouvelleAnnee').val();

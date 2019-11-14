@@ -27,31 +27,17 @@
 					</div>
 				</div>
 				<br/>
-				<!-- affichage liste des jours fériés d'une année -->
 				<div id="divListe" style="display:none;">
-					<form id="modifjourferie" onsubmit="return modificationJourFerie(this);" class="form-inline">
-						<input type="hidden" id="anneeModif"/>
-						<table class="table table-stripedtable-bordered" name="tableauResultat" id="tableauResultat">
-							<thead>
-								<tr>
-									<th align="text-center">
-										<xsl:value-of select="$LBL.NOM"/>
-									</th>
-									<th class="text-center">
-										<xsl:value-of select="$LBL.DATE"/>
-									</th>
-								</tr>
-							</thead>
-							<tbody id="tbodyResultat"/>
-						</table>
-						<input type="submit" class="btn btn-primary" value="{$LBL.MODIFIER}"/>
-					</form>
+					<div id="divTableJoursFeries"/>
 				</div>
                 <br/>
             </div>
         </div>
     </xsl:template>
     <xsl:template name="js.module.sheet">
+		<link href="front/handsontable/7.2.2/dist/handsontable.full.min.css" rel="stylesheet" media="screen"/>
+		<script src="front/handsontable/7.2.2/dist/handsontable.full.min.js"/>
+        <script language="JavaScript" src="front/js/utils_handsontable.js" type="text/javascript"/>
         <script language="JavaScript" src="front/js/communFormulaire.js" type="text/javascript"/>
         <script language="JavaScript" src="front/js/datepicker.js" type="text/javascript"/>
         <script language="JavaScript" src="front/js/jourFerie.js" type="text/javascript"/>

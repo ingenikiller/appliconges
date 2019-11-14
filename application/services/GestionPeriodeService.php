@@ -111,11 +111,7 @@ class GestionPeriodeService extends ServiceStub {
 		$periode = new Periode();
 		$periode->idperiode = $idperiode;
 		$periode->load();
-		/*if($periode->affichage==''){
-			$periode->affichage = 'checked';
-		} else {
-			$periode->affichage = '';
-		}*/
+		
 		$periode->affichage = $affichage;
 		$periode->update();
 		$p_contexte->ajoutReponseAjaxOK();

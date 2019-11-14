@@ -4,44 +4,25 @@
     <xsl:import href="commun.xsl"/>
     <xsl:template name="Contenu">
         <div class="row justify-content-md-center">
-            <div class="col-lg-4">
+            <div class="col-lg-6">
                 <form method="POST" name="recherche" id="recherche" onsubmit="return rechercherOperations(this);">
                     <xsl:call-template name="formulaireJson"/>
                 </form>
 				<xsl:call-template name="periodeEdition"/>
-				<button type="button" class="btn btn-primary" id="" name="" value="{$LBL.CREER}" onclick="editerPeriode('');">
+				
+				<button type="button" class="btn btn-primary" id="" name="" value="{$LBL.CREER}" onclick="editerPeriode('');" title="Créer une nouvelle période">
 					<span class="oi oi-plus">&#160;</span>
 				</button>
-                <table class="table table-stripedtable-bordered" name="tableauResultat" id="tableauResultat">
-                    <thead>
-                        <tr>
-                            <th align="text-center">
-                                <xsl:value-of select="$LBL.DEBUT"/>
-                            </th>
-                            <th class="text-center">
-                                <xsl:value-of select="$LBL.FIN"/>
-                            </th>
-							<th class="text-center">
-                                <xsl:value-of select="$LBL.TYPE"/>
-                            </th>
-							<th class="text-center">
-                                <xsl:value-of select="$LBL.NBJOURS"/>
-                            </th>
-							<th class="text-center">
-                                <xsl:value-of select="$LBL.AFFICHAGE"/>
-                            </th>
-							<th class="text-center">
-                                <xsl:value-of select="$LBL.ACTIONS"/>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody id="tbodyResultat"/>
-                </table>
+				<br/>
+				<div id="divTablePeriodes"/>
                 <br/>
             </div>
         </div>
     </xsl:template>
     <xsl:template name="js.module.sheet">
+		<link href="front/handsontable/7.2.2/dist/handsontable.full.min.css" rel="stylesheet" media="screen"/>
+		<script src="front/handsontable/7.2.2/dist/handsontable.full.min.js"/>
+		<script src="front/handsontable/7.2.2/dist/languages/fr-FR.js"/>
         <script language="JavaScript" src="front/js/communFormulaire.js" type="text/javascript"/>
         <script language="JavaScript" src="front/js/datepicker.js" type="text/javascript"/>
 		<script language="JavaScript" src="front/js/celluleEditable.js" type="text/javascript"/>

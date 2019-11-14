@@ -96,8 +96,6 @@
 		<div id="titre">
 			<center>
 				<br/>
-				<!--img src="application/images/banniere.gif" alt="banniere"/>
-				<br/-->
 				<br/>
 			</center>
 		</div>

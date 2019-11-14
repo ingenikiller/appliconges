@@ -1,10 +1,135 @@
 
+var hotInstance=null;
+
+
+var tabTrad={
+	previousMonth : 'Mois précédent',
+	nextMonth     : 'Next Month',
+	months        : ['Janvier','Février','Mars','Avril','Mai','Juin', 'Juillet','Aoùt','Septembre','Octobre','Novembre','Décembre'],
+	weekdays      : ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'],
+	weekdaysShort : ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam']
+};
 
 
 $(document).ready(function() {
-	alimenterPeriodes();
+	
+
+	
+	//alimenterPeriodes();
 	$( "#debut" ).datepicker();
 	$( "#fin" ).datepicker();
+	
+	
+	var $container = $("#divTablePeriodes");
+
+	$container.handsontable({
+		licenseKey: "non-commercial-and-evaluation",
+		language: 'fr-FR',
+		colHeaders: ['idperiode', 'Date début', 'Date fin', 'Type période', 'Nombre de jours', 'Affichage'],
+		tableClassName: [ 'table', 'table-hover', 'table-striped' ],
+		/*startRows: 5,
+		startCols: 5,
+		minRows: 0,
+		minCols: 5,*/
+		//maxRows: 15,
+		//maxCols: 10,
+		//rowHeaders: true,
+		//colHeaders: true,
+		//minSpareRows: 1,
+		stretchH: 'last',
+		//contextMenu: true,
+		colWidths: [1, 100, 100, 120, 100, 90,80],
+		columns: [
+			//{type: 'checkbox'},
+			{data: 'idperiode', readOnly: true, hiddenColumns: true},
+			{data: 'debut',
+				type: 'date',
+				dateFormat: 'YYYY-MM-DD',
+				correctFormat: true,
+				datePickerConfig: {
+					// First day of the week (0: Sunday, 1: Monday, etc)
+					firstDay: 1,
+					showWeekNumber: true,
+					numberOfMonths: 1,
+					i18n: tabTrad,
+					disableDayFn: function(date) {
+					// Disable Sunday and Saturday
+					return date.getDay() === 0 || date.getDay() === 6;
+					}
+				}
+			},
+			{data: 'fin',
+				type: 'date',
+				dateFormat: 'YYYY-MM-DD',
+				correctFormat: true,
+				datePickerConfig: {
+					// First day of the week (0: Sunday, 1: Monday, etc)
+					firstDay: 1,
+					showWeekNumber: true,
+					numberOfMonths: 1,
+					i18n: tabTrad,
+					disableDayFn: function(date) {
+					// Disable Sunday and Saturday
+					return date.getDay() === 0 || date.getDay() === 6;
+					}
+				}
+			},
+			{data: 'typePeriode',
+				type: 'dropdown',
+				source: ['rtt', 'conges', 'cps', 'cpa']
+			},
+			{data: 'nbjour', type: 'numeric', pattern: '0,0', culture: 'fr-FR'},
+			{data: 'affichage', type: 'checkbox',checkedTemplate: '1', uncheckedTemplate: '0', className: "htCenter"}
+		],
+		hiddenColumns: {
+			// set columns that are hidden by default
+			columns: [0],
+			// show where are hidden columns
+			indicators: true
+		},
+		/*columnSorting: {
+			column: 1,
+			sortOrder: true
+		},*/
+		modifyRowData: function(row) {
+			//alert('after');
+		},
+		afterChange: function (change, source) {
+			if(change==null){
+				return;
+			}
+			
+			var hotInstance=$("#divTablePeriodes").handsontable('getInstance');
+			
+			//var indexDate = getColonneIndex(hotInstance, 'dateFerie');
+			//var data= hotInstance.getDataAtCell(change[0][0],indexDate);
+			var colonne = change[0][1];
+			var valeur = change[0][3];
+			var idperiode = hotInstance.getDataAtCell(change[0][0],0);
+			
+			
+			//var nom = hotInstance.getDataAtCell(change[0][0],0);
+
+			var params ='idperiode='+idperiode+'&'+colonne+'='+valeur;
+
+			$.ajax({
+				url: 'index.php?domaine=periode&service=update',
+				dataType: 'json',
+				type: 'POST',
+				data: params,
+				success: function (retour) {
+					if(retour[0].status =='KO') {
+						alert(retour[0].message);
+					}
+				}
+			});
+		
+	  }
+	  
+	});
+	hotInstance = $("#divTablePeriodes").handsontable('getInstance');
+	
+	alimenterPeriodes();
 });
 
 /*********************************
@@ -34,104 +159,25 @@ function alimenterPeriodes() {
 		url: "index.php?domaine=periode&service=getliste",
 		dataType: 'json',
 		success : function(resultat, statut, erreur){
-			tab = document.getElementById('tableauResultat');
-			$('tr[typetr=periode]').remove();
-			
-			var total = resultat[0].nbLineTotal;
-			var nbpage = Math.ceil(total/resultat[0].nbLine);
-			
-			
-			var nb=resultat[0].nbLine;
-			var tabJson = resultat[0].tabResult;
-			var i=0;
-			for(i=0; i<nb; i++) {
-				var row = $('<tr typetr="periode"/>');
-				row.append($('<td/>').text(tabJson[i].debut));
-				
-				
-				//row.append($('<td  class="text-center"/>').text(tabJson[i].fin));
-				row.append(creerCelluleEditable('fin', tabJson[i].idperiode, tabJson[i].fin, majPeriode, 'date'));
-				
-				
-				row.append($("<td/>").text(tabJson[i].typePeriode));
-				/*var tdnbjour = $('<td align="right" id="tdnbjour'+tabJson[i].idperiode+'"/>').text(tabJson[i].nbjour);
-				$(tdnbjour).dblclick(function(){
-					transformeNbJourEditable(this);
-				});*/
-				
-				row.append(creerCelluleEditable('nbjour', tabJson[i].idperiode, tabJson[i].nbjour, majPeriode, 'numerique'));
-				
-				//row.append($('<label for="affichage-'+tabJson[i].idperiode+'"></label>'));
-				var affichage =$('<input type="checkbox" id="affichage-'+tabJson[i].idperiode+'" value="'+tabJson[i].idperiode+'"/>');
-				
-				
-				$( affichage ).change(function() {
-					$.ajax({
-						url: "index.php?domaine=periode&service=modifieaffichage",
-						dataType: 'json',
-						data: "idperiode="+$(this).val()+"&affichage="+$(this).is(':checked')
-					});
-				});
-				if (tabJson[i].affichage==1) {
-					$(affichage).attr('checked', 'checked');
-				}
-				row.append($('<td align="right"/>').append(affichage).append($('<label for="affichage-'+tabJson[i].idperiode+'"></label>')));//text(tabJson[i].affichage));
-				
-				row.append($('<td class="text-center"/>').append('<a href="#" onclick="editerPeriode(\''+ tabJson[i].idperiode +'\')"><span class="oi oi-pencil"/></a>'));
-				
-				$("#tbodyResultat").append(row);
-				$( affichage ).checkboxradio({
-					icon: {primary:'ui-icon-home'},
-					text: false
-				});
-			}
+			hotInstance.loadData(resultat[0].tabResult);
+			hotInstance.render();
 		}
 	});
 }
 
 function editerPeriode(idperiode) {
-	var hauteur = 300;
-	var largeur = 620;
+	document.periode.service.value='create';
+	document.periode.idperiode.value='';
+	document.periode.debut.value='';
+	document.periode.fin.value='';
+	document.periode.typePeriode.value='';
+	document.periode.nbjour.value=0;
 	
-	if(idperiode!='') {
-		var params = "idperiode="+idperiode;
-		$.getJSON(
-			"index.php?domaine=periode&service=getone",
-			data=params,
-			function(json){
-				document.periode.service.value='update';
-				document.periode.idperiode.value=json[0].idperiode;
-				document.periode.debut.value=json[0].debut;
-				document.periode.fin.value=json[0].fin;
-				document.periode.typePeriode.value=json[0].typePeriode;
-				document.periode.nbjour.value=json[0].nbjour.replace(',','');
-				
-				$("div#boitePeriode").dialog({
-					resizable: false,
-					height:hauteur,
-					width:largeur,
-					modal: true
-				});
-				$('#nbjour').select();
-				$('#nbjour').focus();
-			}
-		);
-	} else {
-		document.periode.service.value='create';
-		document.periode.idperiode.value='';
-		document.periode.debut.value='';
-		document.periode.fin.value='';
-		document.periode.typePeriode.value='';
-		document.periode.nbjour.value=0;
-		
-		$("div#boitePeriode").dialog({
-			resizable: false,
-			height:hauteur,
-			width:largeur,
-			modal: true
-		});
-		$('#nbjour').focus();
-	}
+	$('#boiteCreationPeriode').modal({
+		backdrop: 'static',
+		keyboard: false
+	});
+	$('#nbjour').focus();
 }
 
 function soumettre(form) {
@@ -150,7 +196,7 @@ function soumettre(form) {
 		}, 
 		success: function(retour) {
 			if (traiteRetourAjax(retour)) {
-				$("div#boitePeriode").dialog('close');
+				$('#boiteCreationPeriode').modal('hide');
 				alimenterPeriodes();
 			}
 			return false;

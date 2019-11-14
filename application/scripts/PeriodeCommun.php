@@ -1,18 +1,12 @@
 <?php
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/**
- * Description of PeriodeCommun
- *
- * @author ingeni
- */
 class PeriodeCommun {
-    //put your code here
     
+    /*************************************************************
+	 *
+	 * permet de vérifier qu'une période est unique
+	 *
+	 *************************************************************/
     public static function controleChevauchement(Periode $periode) {
 		//recherche d'une période dont les dates et le type de conges correspond à celle passée en paramètre
 		$requete = "SELECT idperiode FROM periode WHERE ";
@@ -20,7 +14,7 @@ class PeriodeCommun {
 			$requete.="idperiode<>$periode->idperiode AND ";
 		}
 		
-		$requete.="typePeriode='$periode->typePeriode' 
+		$requete.="typePeriode='$periode->typePeriode' and user=$periode->user
 				AND (debut BETWEEN '$periode->debut' AND '$periode->fin' OR fin BETWEEN '$periode->debut' AND '$periode->fin')";
 		
 		$list = new ListDynamicObject();

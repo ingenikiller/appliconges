@@ -80,6 +80,19 @@ class GestionJourFerieService extends ServiceStub {
 		}
 		$p_contexte->ajoutReponseAjaxOK();
 	}
+	
+	public function update($p_contexte){
+		$nom=$p_contexte->m_dataRequest->getData('nom');
+		$annee=$p_contexte->m_dataRequest->getData('annee');
+		$dateFerie=$p_contexte->m_dataRequest->getData('dateFerie');
+		$jour = new JourFerie();
+		$jour->nom = $nom;
+		$jour->annee = $annee;
+		$jour->load();
+		$jour->dateFerie = $dateFerie;
+		$jour->update();
+		$p_contexte->ajoutReponseAjaxOK();
+	}
 }
 
 ?>
