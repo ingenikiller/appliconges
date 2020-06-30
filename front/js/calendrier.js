@@ -36,6 +36,11 @@ $(document).ready(function() {
       icon: false,
 	  direction: "vertical"
     });
+	
+	$( function() {
+		$( "#modeHisto" ).checkboxradio();
+  } );
+	
 });
 
 var tabJour=["D", 'L', 'M', 'M', 'J', 'V', 'S'];
@@ -300,7 +305,7 @@ function modifieCase(idCase, typeJour){
 	//compare la date du jour avec la date sélectionnée
 	var dateSelectionnee = new Date(idCase.substring(0,4), Number(idCase.substring(5,7))-1, idCase.substring(8,10));
 	var dateJour = new Date();
-	if(dateJour > dateSelectionnee) {
+	if(dateJour > dateSelectionnee && $('#modeHisto').prop('checked')==false) {
 		return false;
 	}
 	
