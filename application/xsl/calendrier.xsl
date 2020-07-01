@@ -64,14 +64,14 @@
 					</tr>
 				</table>
 				<br/>
-  <div class="widget">
-  <fieldset>
-    <legend>Raphounet warning: </legend>
-    <label for="modeHisto">Saisie antérieure
-      <input type="checkbox" name="modeHisto" id="modeHisto"/>
-    </label>
-  </fieldset>
-  </div>
+				<div class="widget">
+					<fieldset>
+						<legend>Raphounet warning: </legend>
+						<label for="modeHisto">Saisie antérieure
+							<input type="checkbox" name="modeHisto" id="modeHisto"/>
+						</label>
+					</fieldset>
+				</div>
 			</center>	
 		</div>
 	</section>
