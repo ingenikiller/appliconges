@@ -58,7 +58,7 @@ class GestionJourFerieService extends ServiceStub {
 		$jours = ((UtilsRequete::requeteListe($req))->tabResult);
 		//pour chaque jour, on en crée un nouveau pour la nouvelle annee
 		for($i=0; $i<count($jours); $i++) {
-			$jour = new JourFerie();
+			$jour = new Jourferie();
 			$jour->annee= $anneeCreation;
 			$jour->nom = $jours[$i]->nom;
 			$jour->dateFerie = $anneeCreation . $jours[$i]->decoup;
@@ -70,7 +70,7 @@ class GestionJourFerieService extends ServiceStub {
 		$annee=$p_contexte->m_dataRequest->getData('annee');
 		$i=0;
 		while($p_contexte->m_dataRequest->getData('nom-'.$i) != null) {
-			$jourferie = new JourFerie();
+			$jourferie = new Jourferie();
 			$jourferie->annee=$annee;
 			$jourferie->nom = $p_contexte->m_dataRequest->getData('nom-'.$i);
 			$jourferie->load();
@@ -85,7 +85,7 @@ class GestionJourFerieService extends ServiceStub {
 		$nom=$p_contexte->m_dataRequest->getData('nom');
 		$annee=$p_contexte->m_dataRequest->getData('annee');
 		$dateFerie=$p_contexte->m_dataRequest->getData('dateFerie');
-		$jour = new JourFerie();
+		$jour = new Jourferie();
 		$jour->nom = $nom;
 		$jour->annee = $annee;
 		$jour->load();
