@@ -20,9 +20,9 @@
         </div>
     </xsl:template>
     <xsl:template name="js.module.sheet">
-		<link href="front/handsontable/7.2.2/dist/handsontable.full.min.css" rel="stylesheet" media="screen"/>
-		<script src="front/handsontable/7.2.2/dist/handsontable.full.min.js"/>
-		<script src="front/handsontable/7.2.2/dist/languages/fr-FR.js"/>
+		<link href="front/handsontable/11.0.1/dist/handsontable.full.min.css" rel="stylesheet" media="screen"/>
+		<script src="front/handsontable/11.0.1/dist/handsontable.full.min.js"/>
+		<script src="front/handsontable/11.0.1/dist/languages/fr-FR.js"/>
         <script language="JavaScript" src="front/js/communFormulaire.js" type="text/javascript"/>
         <script language="JavaScript" src="front/js/datepicker.js" type="text/javascript"/>
 		<script language="JavaScript" src="front/js/celluleEditable.js" type="text/javascript"/>

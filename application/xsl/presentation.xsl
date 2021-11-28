@@ -21,18 +21,33 @@
 					<xsl:call-template name="controleMenu"/>
 				</xsl:variable>
 				<xsl:if test="$affMenu='O'">
-					<row>
+					<!--row-->
 					 <div class="dropdown">
-					  <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">Menu
-					  <span class="caret"></span></button>
-					  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+					  <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+						Menu
+						</button>
+					  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
 						<li><a class="dropdown-item" href="index.php?domaine=calendrier&amp;service=getpage">Calendrier</a></li>
 						<li><a class="dropdown-item" href="index.php?domaine=periode&amp;service=getpage">Période</a></li>
 						<li><a class="dropdown-item" href="index.php?domaine=jourferie&amp;service=getpage">Jours fériés</a></li>
 					  </ul>
 					</div>
-					</row>
+					<!--/row-->
+					<!--div class="dropdown">
+					  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+						Dropdown button
+					  </button>
+					  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+						<li><a class="dropdown-item" href="#">Action</a></li>
+						<li><a class="dropdown-item" href="#">Another action</a></li>
+						<li><a class="dropdown-item" href="#">Something else here</a></li>
+					  </ul>
+					</div-->
 				</xsl:if>
+				
+					<!--li><a class="dropdown-item" href="index.php?domaine=calendrier&amp;service=getpage">Calendrier</a></li>
+						<li><a class="dropdown-item" href="index.php?domaine=periode&amp;service=getpage">Période</a></li>
+						<li><a class="dropdown-item" href="index.php?domaine=jourferie&amp;service=getpage">Jours fériés</a></li-->
 					
 					<br/>
 					<xsl:call-template name="Contenu"/>	
@@ -61,21 +76,18 @@
 				<xsl:value-of select="$HeadTitre"/>
 			</title>
 			
-			<script src="front/js/popper.js">&#160;</script>
+			
 			<link href="front/bootstrap/bootstrap-{$BOOTSTRAP-VERSION}-dist/css/bootstrap.min.css" rel="stylesheet"/>
 			<link href="front/jquery/jquery-ui-{$JQUERY-VERSION}.custom/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
 			<link href="front/font/css/open-iconic-bootstrap.css" rel="stylesheet" type="text/css"/>
 			
 			
+			
 			<script type="text/javascript" src="front/jquery/jquery-ui-{$JQUERY-VERSION}.custom/external/jquery/jquery.js" charset="iso-8859-1">&#160;</script>
-			<script type="text/javascript" src="front/bootstrap/bootstrap-{$BOOTSTRAP-VERSION}-dist/js/bootstrap.min.js" charset="iso-8859-1">&#160;</script>
+			<script type="text/javascript" src="front/bootstrap/bootstrap-{$BOOTSTRAP-VERSION}-dist/js/bootstrap.bundle.min.js" charset="iso-8859-1">&#160;</script>
 			
 			<script type="text/javascript" src="front/jquery/jquery-ui-{$JQUERY-VERSION}.custom/jquery-ui.min.js" charset="iso-8859-1">&#160;</script>
 			
-			<!--script type="text/javascript" src="application/js/commun.js" charset="iso-8859-1">&#160;</script>
-			<script type="text/javascript" src="application/js/communFormulaire.js" charset="iso-8859-1">&#160;</script>
-			<script type="text/javascript" src="application/js/dateFormat.js" charset="iso-8859-1">&#160;</script>
-			<script type="text/javascript" src="application/js/communJson.js" charset="iso-8859-1">&#160;</script-->
 			<script type="text/javascript" src="front/js/core_ajax.js" charset="iso-8859-1">&#160;</script>
 			<script type="text/javascript" src="front/js/touchefonction.js" charset="iso-8859-1">&#160;</script>
 			

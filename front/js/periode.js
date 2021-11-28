@@ -172,12 +172,18 @@ function editerPeriode(idperiode) {
 	document.periode.fin.value='';
 	document.periode.typePeriode.value='';
 	document.periode.nbjour.value=0;
-	
+	/*
 	$('#boiteCreationPeriode').modal({
 		backdrop: 'static',
 		keyboard: false
 	});
 	$('#nbjour').focus();
+	*/
+	var myModal = new bootstrap.Modal(document.getElementById('boiteCreationPeriode'), {
+		backdrop: 'static',
+		keyboard: false
+	});
+	myModal.show();
 }
 
 function soumettre(form) {

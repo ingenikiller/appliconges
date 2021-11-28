@@ -57,10 +57,8 @@
 			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLabel">Création</h5>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true" class="oi oi-x"></span>
-						</button>
+						<h5 class="modal-title" id="exampleModalLabel">Edition</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div class="modal-body">
 						<form method="POST" action="#" onsubmit="return soumettre(this);" name="periode" id="periode">
@@ -105,17 +103,9 @@
 											<input class="form-control" type="text" name="nbjour" id="nbjour" size="11" maxlength="10" tabindex="30"/>
 										</div>
 									</div>
-									<!--div class="row">
-										<div class="col-xs-4"/>
-										<div class="form-group row">
-											<div class="col-sm-offset-5 col-sm-5">
-												<button type="submit" class="btn btn-primary">Valider</button>
-											</div>
-										</div>
-									</div-->
 									<div class="modal-footer">
 										<button type="submit" class="btn btn-primary">Valider</button>
-										<button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
 									</div>
 								</div>
 							</div>
