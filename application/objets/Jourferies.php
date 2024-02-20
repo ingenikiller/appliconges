@@ -8,5 +8,11 @@ class Jourferies extends SavableObject {
 	
 	public $nom;
 	
+	public $datecre;
+	
+	public $datemod;
+	
+	public $utimod;
+	
 }
 ?>

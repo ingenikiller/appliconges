@@ -1,5 +1,4 @@
 <?php
-
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -19,6 +18,10 @@ interface IList {
     public function getNbLineTotal();
     
     public function getNbLine();
+	
+	public function getTotalPage();
+	
+	public function getPage();
     
 }
 

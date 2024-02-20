@@ -17,10 +17,9 @@ class PeriodeCommun {
 		$requete.="typePeriode='$periode->typePeriode' and user=$periode->user
 				AND (debut BETWEEN '$periode->debut' AND '$periode->fin' OR fin BETWEEN '$periode->debut' AND '$periode->fin')";
 		
-		$list = new ListDynamicObject();
-        $list->name='periode';
+		$list = new ListDynamicObject('periode');
         $list->request($requete);
-		return $list->nbLineTotal;
+		return $list->getNbLineTotal();
 	}
     
 }

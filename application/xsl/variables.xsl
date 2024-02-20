@@ -6,6 +6,8 @@
 <!-- version de Bootstrap -->
 <xsl:variable name="BOOTSTRAP-VERSION" select="'5.1.1'"/>
 
+<xsl:variable name="HANDSONTABLE-VERSION" select="'12.3.3'"/>
+
 <xsl:variable name="BLANK">application/xsl/blank.html</xsl:variable>
 
 <xsl:variable name="UTI.DROITS">

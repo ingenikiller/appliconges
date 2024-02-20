@@ -111,15 +111,18 @@ $(document).ready(function() {
 			//var nom = hotInstance.getDataAtCell(change[0][0],0);
 
 			var params ='idperiode='+idperiode+'&'+colonne+'='+valeur;
+			var dataJson = new Object();
+			dataJson.idperiode=idperiode;
+			dataJson[colonne]=valeur;
 
 			$.ajax({
 				url: 'index.php?domaine=periode&service=update',
 				dataType: 'json',
-				type: 'POST',
-				data: params,
+				type: "POST",
+				data: {periode: JSON.stringify(dataJson)},
 				success: function (retour) {
-					if(retour[0].status =='KO') {
-						alert(retour[0].message);
+					if(retour.racine.status =='KO') {
+						alert(retour.racine.message);
 					}
 				}
 			});
@@ -137,10 +140,19 @@ $(document).ready(function() {
  * directement dans la liste
  *********************************/
 var majPeriode = function(idperiode, nomchamp, nbjour) {
-	var params = 'idperiode='+idperiode+'&'+nomchamp+'='+nbjour;
+	//var params = 'idperiode='+idperiode+'&'+nomchamp+'='+nbjour;
+	var dataJson=new Object();
+	dataJson.idperiode= form.idperiode.value;
+	dataJson.debut= form.debut.value;
+	dataJson.fin= form.fin.value;
+	dataJson.typePeriode= form.typePeriode.value;
+	dataJson.nbjour= form.nbjour.value;
+	
 	$.getJSON({ 
 		url: "index.php?domaine=periode&service=update",
-		data: params,
+		dataType: 'json',
+		type: "POST",
+		data: {periode: JSON.stringify(dataJson)},
 		success: function(retour) {
 			if(traiteRetourAjax(retour)){
 				fermeChampEditable(nomchamp+'-'+idperiode);
@@ -159,7 +171,7 @@ function alimenterPeriodes() {
 		url: "index.php?domaine=periode&service=getliste",
 		dataType: 'json',
 		success : function(resultat, statut, erreur){
-			hotInstance.loadData(resultat[0].tabResult);
+			hotInstance.loadData(resultat.racine.ListePeriodes.data);
 			hotInstance.render();
 		}
 	});
@@ -191,15 +203,19 @@ function soumettre(form) {
 		return false;
 	}
 	
+	var dataJson=new Object();
+	dataJson.idperiode= form.idperiode.value;
+	dataJson.debut= form.debut.value;
+	dataJson.fin= form.fin.value;
+	dataJson.typePeriode= form.typePeriode.value;
+	dataJson.nbjour= form.nbjour.value;
+	
 	var service = form.service.value;
 	$.getJSON({ 
 		url: "index.php?domaine=periode&service="+service,
-		data: { "idperiode": form.idperiode.value,
-				"debut": form.debut.value,
-				"fin": form.fin.value,
-				"typePeriode": form.typePeriode.value,
-				"nbjour": form.nbjour.value
-		}, 
+		dataType: 'json',
+		type: "POST",
+		data: {periode: JSON.stringify(dataJson)},
 		success: function(retour) {
 			if (traiteRetourAjax(retour)) {
 				$('#boiteCreationPeriode').modal('hide');

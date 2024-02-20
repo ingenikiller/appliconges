@@ -10,5 +10,11 @@ class Jourconges extends SavableObject {
 	
 	public $typePeriode;
 	
+	public $datecre;
+	
+	public $datemod;
+	
+	public $utimod;
+	
 }
 ?>

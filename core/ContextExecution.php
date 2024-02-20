@@ -12,6 +12,9 @@ class ContextExecution {
 	
 	private $m_user=null;
 	
+	private $membre=null;
+	
+	
 	//titre de la page
 	private $m_titrePage;
 
@@ -23,13 +26,13 @@ class ContextExecution {
 	 */
 	public function __construct(){
 		$this->m_dataRequest = new DataRequest();
-		//titre par défaut
-		$this->m_titrePage = "PhpMyBudget";
+		//titre par dÃ©faut
+		$this->m_titrePage = "";//"PhpMyBudget";
 	}
 	
 	/**
-	 * Accès à l'utilisateur identifié
-	 * @param unknown_type $p_user
+	 * AccÃ¨s Ã  l'utilisateur identifiÃ©
+	 * @param Users $p_user
 	 */
 	public function setUser($p_user){
 		$this->m_user = $p_user;
@@ -38,9 +41,16 @@ class ContextExecution {
 		return $this->m_user;
 	}
 	
+	public function setMembre($p_membre){
+		$this->membre = $p_membre;
+	}
+	public function getMembre(){
+		return $this->membre;
+	}
+	
 	/**
 	 * Ajoute un message
-	 * @param message à ajouter
+	 * @param message Ã  ajouter
 	 */
 	public function addMessage($p_message) {
 		if($this->m_messages==NULL){
@@ -61,7 +71,7 @@ class ContextExecution {
 	}
 
 	/**
-	 * Accès au titre de la page
+	 * Accï¿½s au titre de la page
 	 */
 	public function getTitrePage(){
 		return $this->m_titrePage;

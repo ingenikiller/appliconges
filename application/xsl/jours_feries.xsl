@@ -35,8 +35,9 @@
         </div>
     </xsl:template>
     <xsl:template name="js.module.sheet">
-		<link href="front/handsontable/7.2.2/dist/handsontable.full.min.css" rel="stylesheet" media="screen"/>
-		<script src="front/handsontable/7.2.2/dist/handsontable.full.min.js"/>
+		<link href="front/handsontable/{$HANDSONTABLE-VERSION}/dist/handsontable.full.min.css" rel="stylesheet" media="screen"/>
+		<script src="front/handsontable/{$HANDSONTABLE-VERSION}/dist/handsontable.full.min.js"/>
+		<script src="front/handsontable/{$HANDSONTABLE-VERSION}/dist/languages/fr-FR.js"/>
         <script language="JavaScript" src="front/js/utils_handsontable.js" type="text/javascript"/>
         <script language="JavaScript" src="front/js/communFormulaire.js" type="text/javascript"/>
         <script language="JavaScript" src="front/js/datepicker.js" type="text/javascript"/>

@@ -11,15 +11,13 @@ class CommunUser {
 	}
 	
 	public static function getUserLogin($p_user, $p_mdp) {
-		$l_requete = "SELECT * FROM users WHERE 
-							nom='". $p_user ."' AND 
-							motDePasse='". $p_mdp . "'";
-		
-		$list = new ListObject();
+		$list = new ListObject('User');
 		$clause="nom='". $p_user ."' AND motDePasse='". $p_mdp . "'";
 		$list->request('Users', $clause);
-		if(isset($list->tabResult[0])){
-			return $list->tabResult[0];			
+		
+		Logger::getRootLogger()->debug('nb login:' . $list->getNbLine());
+		if($list->getNbLine()==1){
+			return $list->getData()[0];			
 		} else {
 			return null;
 		}
@@ -28,7 +26,7 @@ class CommunUser {
 	public static function getUser($p_connexion, $p_user) {
 		$l_requete = "SELECT * FROM intervenants WHERE 
 							intervenantid='$p_user'";
-		//Logger::getInstance()->addLogMessage('requete:'.$l_requete);
+		
 		$l_result = $p_connexion->requeteBDD($l_requete);
 		if($l_result == FALSE) {
 			echo $p_connexion->getLastError();
@@ -41,5 +39,11 @@ class CommunUser {
 		
 		return $p_connexion->fetchArray($l_result);
 	}
+	
+
+	
+	
+	
 }
+
 ?>

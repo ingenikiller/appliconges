@@ -60,13 +60,17 @@ $(document).ready(function() {
 			
 			var nom = hotInstance.getDataAtCell(change[0][0],0);
 
-			var params ='dateFerie='+valeur+'&annee='+$('#listeAnnee').val()+'&nom='+nom ;
+			//var params ='dateFerie='+valeur+'&annee='+$('#listeAnnee').val()+'&nom='+nom ;
+			var dataJson=new Object();
+			dataJson.dateFerie=valeur;
+			dataJson.annee=$('#listeAnnee').val()
+			dataJson.nom=nom;
 
 			$.ajax({
 				url: 'index.php?domaine=jourferie&service=update',
 				dataType: 'json',
-				type: 'POST',
-				data: params,
+				type: "POST",
+				data: {jourFerie: JSON.stringify(dataJson)},
 				success: function () {
 				}
 			});
@@ -88,8 +92,8 @@ function alimenterListeAnnees() {
 			$('#'+nomChamp).empty();
 			$('#'+nomChamp).append(new Option('','',true,true));
 			
-			var nb=resultat[0].nbLine;
-			var tabJson = resultat[0].tabResult;
+			var nb=resultat.racine.ListeAnnees.totalLigne;
+			var tabJson = resultat.racine.ListeAnnees.data;
 			var i=0;
 			for(i=0; i<nb; i++) {
 				if(i==0) {
@@ -121,7 +125,7 @@ function rechercheanneejoursferies(annee) {
 		data: params,
 		success : function(resultat, statut, erreur){
 			$('#divListe').show();
-			$("#divTableJoursFeries").handsontable('getInstance').loadData(resultat[0].tabResult);
+			$("#divTableJoursFeries").handsontable('getInstance').loadData(resultat.racine.ListeJourFerie.data);
 			$("#divTableJoursFeries").handsontable('getInstance').render();
 		}
 	});

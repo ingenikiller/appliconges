@@ -4,8 +4,12 @@ class PageControl {
 
 	private $logger;
 	
-	public function __construct() {
+	private $gestionToken;
+	
+	public function __construct($gestionToken) {
 		$this->logger = Logger::getRootLogger();
+		
+		$this->gestionToken = $gestionToken;
 	}
 
 	public function process() {
@@ -31,20 +35,33 @@ class PageControl {
 		}
 		$classe = ParserConfiguration::getAction($l_domaine, $l_service);
 		
-		//si pas de classe, chargement de la page par defaut
+		//si pas de classe, chargement de la page par défaut
 		if($classe==null) {
-			if($classe==null) {
-				die("Configuration incorrecte: $l_service inexistante");
-			}
+			die("Configuration incorrecte: $l_service inexistante");
 		}
+		
 		$this->logger->debug('classe:' . $classe->getNom());
 		
 		if($classe->isPrivee()) {
-			$auten = new AuthentificateurStandard();
+			$auten = null;
+			if($this->gestionToken==TRUE) {
+				//
+				$auten = new AuthentificateurToken();
+			} else {
+				$auten = new AuthentificateurStandard();
+			}
 			try {
 				$auten->authenticate($contexte);
 			} catch (Exception $e){
-				header('Location: index.php');
+				if($this->gestionToken==TRUE || $classe->getRender()=='json') {
+					$reponse = new ReponseAjax();
+					$reponse->status='KO';
+					$reponse->message=$e->getMessage();
+					$reponse->codeerr=$e->getMessage();
+					echo json_encode($reponse);
+				} else {
+					header('Location: index.php');
+				}
 				die();
 			}
 		}

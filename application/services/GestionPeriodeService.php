@@ -19,8 +19,7 @@ class GestionPeriodeService extends ServiceStub {
 			WHERE periode.debut=\'$parent->debut\' AND periode.fin=\'$parent->fin\' AND periode.typePeriode=\'$parent->typePeriode\' AND jourconges.jour < CURDATE()  AND periode.user=\'$parent->user\'
 			GROUP BY debut, fin , nbjour, periode.typePeriode 
 			ORDER BY debut';
-		$joursPris= new ListDynamicObject();
-        $joursPris->name='JoursPris';
+		$joursPris= new ListDynamicObject('JoursPris');
         $joursPris->setAssociatedRequest(null, $reqJourPris);
 		
 		//jour pris entre le 01/11 et 31/12
@@ -30,8 +29,7 @@ class GestionPeriodeService extends ServiceStub {
 			WHERE periode.debut=\'$parent->debut\' AND periode.fin=\'$parent->fin\' AND periode.typePeriode=\'$parent->typePeriode\' AND periode.user=\'$parent->user\'
 			GROUP BY debut, fin , nbjour, periode.typePeriode 
 			ORDER BY debut';
-		$joursFrac= new ListDynamicObject();
-        $joursFrac->name='JoursFrac';
+		$joursFrac= new ListDynamicObject('JoursFrac');
         $joursFrac->setAssociatedRequest(null, $reqFrac);
 		
 		$user = $p_contexte->getUser()->userId;
@@ -43,9 +41,8 @@ class GestionPeriodeService extends ServiceStub {
 			GROUP BY idperiode, debut, fin , nbjour, periode.typePeriode, affichage 
 			ORDER BY debut";
 		
-		$listePeriodes = new ListDynamicObject();
-        $listePeriodes->name = 'ListePeriodes';
-		$listePeriodes->setAssociatedKey($joursPris);
+		$listePeriodes = new ListDynamicObject('ListePeriodes');
+        $listePeriodes->setAssociatedKey($joursPris);
 		$listePeriodes->setAssociatedKey($joursFrac);
         $listePeriodes->request($l_requete);
         $p_contexte->addDataBlockRow($listePeriodes);
@@ -55,8 +52,7 @@ class GestionPeriodeService extends ServiceStub {
 		$user = $p_contexte->getUser()->userId;
 		$l_requete = "SELECT idperiode, debut, fin , nbjour, periode.typePeriode, affichage FROM periode where periode.user = '$user' ORDER BY fin DESC, typePeriode";
 		
-		$listePeriodes = new ListDynamicObject();
-        $listePeriodes->name = 'ListePeriodes';
+		$listePeriodes = new ListDynamicObject('ListePeriodes');
         $listePeriodes->request($l_requete);
         $p_contexte->addDataBlockRow($listePeriodes);
 	}
@@ -72,21 +68,23 @@ class GestionPeriodeService extends ServiceStub {
 	}
 	
     public function create(ContextExecution $p_contexte){
-		$periode = new Periode();
-        $periode->fieldObject($p_contexte->m_dataRequest);
-		$this->getLogger()->debug('user create:'.$p_contexte->getUser()->userId);
+        $periodeJson=$p_contexte->m_dataRequest->getDataJson('periode');
+        $periode = new Periode();
+        $periode->fieldObjectJson($periodeJson);
+		//$this->getLogger()->debug('user create:'.$p_contexte->getUser()->userId);
 		$periode->user = $p_contexte->getUser()->userId;
         $periode->create();
         $p_contexte->ajoutReponseAjaxOK();
     }
     
 	public function update(ContextExecution $p_contexte){
-		$idperiode = $p_contexte->m_dataRequest->getData('idperiode');
+	    $periodeJson=$p_contexte->m_dataRequest->getDataJson('periode');
+	    $idperiode = $periodeJson['idperiode'];
 		
 		$periode = new Periode();
 		$periode->idperiode = $idperiode;
 		$periode->load();
-        $periode->fieldObject($p_contexte->m_dataRequest);
+		$periode->fieldObjectJson($periodeJson);
 		
 		$nbperiode=PeriodeCommun::controleChevauchement($periode);
 		$this->getLogger()->debug('requete nbperiode:'.$nbperiode);

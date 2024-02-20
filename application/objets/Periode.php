@@ -18,5 +18,11 @@ class Periode extends SavableObject {
 	
 	public $affichage;
 	
+	public $datecre;
+	
+	public $datemod;
+	
+	public $utimod;
+	
 }
 ?>

@@ -73,9 +73,9 @@ function alimenterPeriodes() {
 		dataType: 'json',
 		success : function(resultat, statut, erreur){
 			//nombre de périodes
-			var nb=resultat[0].nbLine;
+			var nb=resultat.racine.ListePeriodes.totalLigne;
 			//tableau des périodes
-			var tabJson = resultat[0].tabResult;
+			var tabJson = resultat.racine.ListePeriodes.data;
 			
 			var tabAnnees = Array();
 			tabAnnees['debut']=(tabJson[0].debut).substr(0, 4);
@@ -86,8 +86,8 @@ function alimenterPeriodes() {
 				var totalDispo = Number(tabJson[i].nbjour);
 				var totalPositionne = Number(tabJson[i].total);
 				var totalPris = 0;
-				if(tabJson[i].associatedObjet[0].tabResult[0] != null) {
-					totalPris = Number(tabJson[i].associatedObjet[0].tabResult[0].total);
+				if(tabJson[i].JoursPris.data[0] != null) {
+					totalPris = Number(tabJson[i].JoursPris.data[0].total);
 				}
 				var reste = totalDispo - totalPositionne;
 				var styleRow='';
@@ -102,8 +102,8 @@ function alimenterPeriodes() {
 				}
 				
 				var frac = 0;
-				if(tabJson[i].associatedObjet[1].tabResult[0] != null){
-					frac = reste + Number(tabJson[i].associatedObjet[1].tabResult[0].total);
+				if(tabJson[i].JoursFrac.data != null){
+					frac = reste + Number(tabJson[i].JoursFrac.data[0].total);
 				}
 				
 				//si la période est déjà affichée
@@ -118,6 +118,8 @@ function alimenterPeriodes() {
 					var row = $('<tr id="'+'periode'+codeLigne+'" class="'+styleRow+'"/>');
 					row.append($("<td/>").text(tabJson[i].debut));
 					row.append($("<td/>").text(tabJson[i].fin));
+					//nbjourouvres
+					//console.log(getNbJoursOuvres(tabJson[i].debut, tabJson[i].fin));
 					row.append($("<td/>").text(tabJson[i].typePeriode));
 					row.append($('<td align="right" id="'+"totalDispo"+codeLigne+'"/>').text(totalDispo));
 					row.append($('<td align="right" id="'+"totalPositionne"+codeLigne+'"/>').text(totalPositionne));
@@ -138,6 +140,48 @@ function alimenterPeriodes() {
 			traiteWeekendEvent();
 		}
 	});
+}
+
+function getNbJoursOuvres(dateDeb, dateFin) {
+	 //var debut=jr_get_value('date_debut');
+  //var fin=jr_get_value('date_fin');
+ 	//
+   
+    var start = new Date(dateDeb);
+    var end = new Date(dateFin);
+ 
+    // initial total
+    var totalBusinessDays = 0;
+ 
+    // normalize both start and end to beginning of the day
+    start.setHours(0,0,0,0);
+    end.setHours(0,0,0,0);
+ 
+    var current = new Date(start);
+    current.setDate(current.getDate() + 1);
+    var day;
+  
+    // loop through each day, checking
+    while (current <= end) {
+         
+        day = current.getDay();
+       
+        if (day >= 1 && day <= 5)
+        {
+ 
+            ++totalBusinessDays;
+             
+ 
+       
+        }
+           
+ 
+        current.setDate(current.getDate() + 1);
+    }
+     
+    totalBusinessDays=totalBusinessDays+1;
+     
+    return totalBusinessDays;
 }
 
 
@@ -368,12 +412,16 @@ function determineClasseJour(typeJour) {
 
 
 function ajaxMajJour(jour, action, typePeriode){
-	var params="jour="+jour+"&typePeriode="+typePeriode;
+	
+	var dataJson=new Object();
+	dataJson.jour=jour;
+	dataJson.typePeriode=typePeriode;
 	$.ajax({
 		url: "index.php?domaine=jour&service="+action,
-		async: true,
+		//async: true,
 		dataType: 'json',
-		data: params,
+		type: "POST",
+		data: {jour: JSON.stringify(dataJson)},
 		success : function(resultat, statut, erreur){
 			if(traiteRetourAjax(resultat)) {
 				majPeriodes();				
@@ -393,9 +441,9 @@ function majPeriodes() {
 		dataType: 'json',
 		success : function(resultat, statut, erreur){
 			//nombre de périodes
-			var nb=resultat[0].nbLine;
+			var nb=resultat.racine.ListePeriodes.totalLigne;
 			//tableau des périodes
-			var tabJson = resultat[0].tabResult;
+			var tabJson = resultat.racine.ListePeriodes.data;
 			for(i=0; i<nb; i++) {
 				var codeLigne = tabJson[i].debut + tabJson[i].typePeriode;
 				var totalDispo = Number(tabJson[i].nbjour);
@@ -418,8 +466,8 @@ function majPeriodes() {
 				
 				
 				var frac = 0;
-				if(tabJson[i].associatedObjet[1].tabResult[0] != null){
-					frac = reste + Number(tabJson[i].associatedObjet[1].tabResult[0].total);
+				if(tabJson[i].jourFrac != null){
+					frac = reste + Number(tabJson[i].jourFrac.data.total);
 				}
 				
 				
@@ -447,8 +495,8 @@ function alimenteJours(anneeDebutPeriode, anneeFinPeriode) {
 		dataType: 'json',
 		data: params,
 		success : function(resultat, statut, erreur){
-			var nb=resultat[0].nbLine;
-			var tabJson = resultat[0].tabResult;
+			var nb=resultat.racine.ListeJour.totalLigne;
+			var tabJson = resultat.racine.ListeJour.data;
 			for(i=0; i<nb; i++) {
 				var caseId = tabJson[i].jour;
 				var typePeriode = tabJson[i].typePeriode;
@@ -470,8 +518,8 @@ function alimenteJoursFeries(anneeDebutPeriode, anneeFinPeriode) {
 		dataType: 'json',
 		data: params,
 		success : function(resultat, statut, erreur){
-			var nb=resultat[0].nbLine;
-			var tabJson = resultat[0].tabResult;
+			var nb=resultat.racine.ListeJourFerie.totalLigne;
+			var tabJson = resultat.racine.ListeJourFerie.data;
 			for(i=0; i<nb; i++) {
 				var caseId = tabJson[i].dateFerie;
 				$( "#"+caseId ).removeClass();

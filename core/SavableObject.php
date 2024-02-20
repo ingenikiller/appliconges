@@ -32,7 +32,6 @@ abstract class SavableObject extends Objects {
 		$l_requete = 'SHOW COLUMNS FROM ' . strtolower($this->_tableName);
 		$l_result = $pdo->query ( $l_requete );
 		while ( $l_champs = $l_result->fetch ( PDO::FETCH_ASSOC ) ) {
-			//$this->logger->debug($l_champs ['Field']);
 			$table[$l_champs ['Field']] = $l_champs;
 		}
 		return $table;
@@ -42,7 +41,7 @@ abstract class SavableObject extends Objects {
 	
     /**
      * retourne les éléments de la clé primaire valorisée pour requete
-     * @return type tableau
+     * @return array tableau
      */
     private function getPrimaryKeyValorisee() {
         $tab = array();
@@ -50,7 +49,7 @@ abstract class SavableObject extends Objects {
 
         $reflect = new ReflectionObject($this);
 
-        foreach ($primaryKey as $key => $value) {
+        foreach ($primaryKey as $value) {
             $property = $reflect->getProperty($value);
             $tab[] = $value . '=' . self::$_pdo->quote($property->getValue($this)); //'=\'' . $property->getValue($this) . '\'';
         }
@@ -81,7 +80,6 @@ abstract class SavableObject extends Objects {
             default :
                 echo 'BOUH';
         }
-
         $stmt->setFetchMode(PDO::FETCH_INTO, $this);
         $stmt->fetch(PDO::FETCH_INTO);
     }
@@ -92,6 +90,12 @@ abstract class SavableObject extends Objects {
 	public function create(){
 		$champs = null;
         $values = null;
+		
+		//ajout des colonnes techniques
+		$this->datecre='CURRENT_DATE';
+		$this->utimod=$_SESSION['userid'];
+		$this->datemod='CURRENT_DATE';
+		
         foreach ($this->fetchPublicMembers() as $col => $val) {
             if ($col != 'associatedObjet') {
 				$champDefinition = $this->champsDef[$col];
@@ -109,22 +113,33 @@ abstract class SavableObject extends Objects {
 						//type DATE
 						if($val=='') {
 							$values[] = 'null';
+						} else if($val=='CURRENT_DATE') {
+							$values[] = $val;
 						} else {
 							$values[] = trim(self::$_pdo->quote($val));
 						}
+					} else if(stripos($champDefinition['Type'], 'int') === 0) {
+						//type int
+						if($val=='') {
+							$values[]=0;
+						} else {
+							$values[] = $val;
+						}
 					} else {
 						//type AUTRE
-						$this->logger->debug('Type non géré en create:' . $champDefinition['Type']);
+						$this->logger->debug('Type non géré 
+						en create:' . $champDefinition['Type']);
 						$values[] = $val=='' ? 0 : $val;
 					}
 				}
             }
         }
+		
 		$query = sprintf("INSERT INTO %s (%s) VALUES (%s)", strtolower($this->_tableName), implode(',', $champs), implode(',', $values));
 		
 		try {
             $this->logger->debug('requete create:' . $query);
-            $stmt = self::$_pdo->exec($query);
+            self::$_pdo->exec($query);
         } catch (PDOException $e) {
             throw new TechnicalException($e);
         }
@@ -136,9 +151,14 @@ abstract class SavableObject extends Objects {
 	public function update(){
 		$primaryKey = implode(' AND ', $this->getPrimaryKeyValorisee());
 		$set = null;
+		
+		$this->utimod=$_SESSION['userid'];
+		$this->datemod='CURRENT_DATE';
+		
         $tabKey = explode(',', $this->getPrimaryKey());
         foreach ($this->fetchPublicMembers() as $col => $val) {
-            if ($col != 'associatedObjet') {
+            $this->logger->debug('colonne:' . $col);
+			if ($col != 'associatedObjet') {
 				if (array_search($col, $tabKey) === false) {
                     $champDefinition = $this->champsDef[$col];
 					$this->logger->debug('type:' . $champDefinition['Type']);
@@ -152,9 +172,14 @@ abstract class SavableObject extends Objects {
 						//type DATE
 						if($val=='') {
 							$set[] = sprintf("%s=%s", $col, 'null');
+						} else if($val=='CURRENT_DATE') {
+							$set[] = sprintf("%s=%s", $col, $val);;
 						} else {
 							$set[] = sprintf("%s=%s", $col, trim(self::$_pdo->quote($val)));
 						}
+					} else if(stripos($champDefinition['Type'], 'int') === 0) {
+						//type int
+						$set[] = sprintf("%s=%s", $col, $val=='' ? 0 : $val);
 					} else {
 						//type AUTRE
 						$this->logger->debug('Type non géré en update:' . $champDefinition['Type']);
@@ -163,11 +188,12 @@ abstract class SavableObject extends Objects {
                 }
             }
         }
+		
 		$query = sprintf("UPDATE %s SET %s WHERE %s", strtolower($this->_tableName), implode(',', $set), $primaryKey);
 		
 		try {
             $this->logger->debug('requete update:' . $query);
-            $stmt = self::$_pdo->exec($query);
+            self::$_pdo->exec($query);
         } catch (PDOException $e) {
             throw new TechnicalException($e);
         }
@@ -180,7 +206,7 @@ abstract class SavableObject extends Objects {
         $requete = 'DELETE FROM '.strtolower($this->_tableName). ' WHERE ' . implode(' AND ', $this->getPrimaryKeyValorisee());
         $this->logger->debug('delete:' . $requete);
         try {
-            $stmt = self::$_pdo->query($requete);
+            self::$_pdo->query($requete);
         } catch (PDOException $e) {
             throw new TechnicalException($e);
         }
@@ -189,8 +215,9 @@ abstract class SavableObject extends Objects {
     /**
      *
      * @param DataRequest $request 
+     * @deprecated
      */
-    public function fieldObject(DataRequest $request, $prefix='', $separator='', $indice='') {
+    /*public function fieldObject(DataRequest $request, $prefix='', $separator='', $indice='') {
         $reflect = new ReflectionObject($this);
         //chaque champs de la classe
         foreach ($reflect->getProperties(ReflectionProperty::IS_PUBLIC) as $prop) {
@@ -205,6 +232,23 @@ abstract class SavableObject extends Objects {
                     $this->logger->debug('champs:' . $prefix. $prop->getName() . ' vide');
                 }
             //}
+        }
+    }*/
+
+    /**
+     * 
+     */
+    public function fieldObjectJson($objet) {
+        $this->logger->debug('Repmplissage objet');
+        $reflect = new ReflectionObject($this);
+        //chaque champs de la classe
+        foreach ($reflect->getProperties(ReflectionProperty::IS_PUBLIC) as $prop) {
+            if (isset($objet[$prop->getName()])) {
+                $this->logger->debug('champs:' . $prop->getName() . '->' . $objet[$prop->getName()]);
+                $prop->setValue($this, $objet[$prop->getName()]);
+            } else {
+                $this->logger->debug('champs:' . $prop->getName() . ' vide');
+            }
         }
     }
     

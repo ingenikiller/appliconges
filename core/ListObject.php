@@ -7,24 +7,12 @@
  */
 class ListObject extends ListStructure implements IList{
     
-    public $name='';
-
-    public $tabResult=null;
-    
-    public $nbLineTotal;
-    public $nbLine;
-    
-    public $totalPage;
-    public $page;
-    
-	private $logger;
 	
-	private $ligneParPage;
-	
-	final public function __construct(){
+   	final public function __construct($name){
 		parent::__construct();
 		$this->logger = Logger::getRootLogger();
 		$this->ligneParPage = LIGNE_PAR_PAGE;
+		$this->name=$name;
 	}
 	
     public function requestNoPage($classe, $clause=null) {
@@ -38,9 +26,12 @@ class ListObject extends ListStructure implements IList{
         $l_requete = 'select * '.$l_suff;
         $this->logger->debug('search complete: '. $l_requete);
         $stmt = self::$_pdo->query($l_requete);
-        
+        $this->logger->debug('requete OK');
         $this->nbLine = $stmt->rowCount();
-        $this->tabResult = $stmt->fetchAll(PDO::FETCH_CLASS, $classe);//, array(self::$_pdo, $table[1]));   
+        $this->nbLineTotal = $stmt->rowCount();
+        $this->totalPage = 1;
+        $this->page = 1;
+        $this->tabResult = $stmt->fetchAll(PDO::FETCH_CLASS, $classe);  
         
         //appel des requetes des objets associés
         $this->callAssoc();
@@ -58,7 +49,7 @@ class ListObject extends ListStructure implements IList{
     		return $this->requestNoPage($classe, $clause);
     	}
     	
-    	$l_suff = " FROM $classe";
+    	$l_suff = " FROM ".strtolower ($classe);
         if($clause!=null){
             $l_suff.=" WHERE $clause";
         }
@@ -84,40 +75,16 @@ class ListObject extends ListStructure implements IList{
         $l_requete = "select * $l_suff LIMIT " . ($page-1)*$this->ligneParPage . ', ' . $this->ligneParPage;
         $this->logger->debug('search complete: '. $l_requete);
         $stmt = self::$_pdo->query($l_requete);
-        
+        $this->logger->debug('requete OK');
         $this->nbLine = $stmt->rowCount();
-        $this->tabResult = $stmt->fetchAll(PDO::FETCH_CLASS, $classe);//, array(self::$_pdo, $table[1]));   
+        $this->tabResult = $stmt->fetchAll(PDO::FETCH_CLASS, $classe);   
         
         $this->totalPage = ceil($this->getNbLineTotal() / $this->ligneParPage);
         $this->page=$page;
+		
         //appel des requetes des objets associés
         $this->callAssoc();
-        
-         //return $this;
     }
 
-    public function getNbRows() {
-        return count($this->tabResult);
-    }
-    
-    public function getName() {
-        return $this->name;
-    }
-    
-    public function getData(){
-        return $this->tabResult;
-    }
-    
-    public function getNbLineTotal(){
-        return $this->nbLineTotal;
-    }
-    
-    public function getNbLine(){
-        return $this->nbLine;
-    }
-	
-	public function setLigneParPage($nbLignes) {
-		$this->ligneParPage = $nbLignes;
-	}
 }
 ?>
