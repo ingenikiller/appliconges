@@ -104,3 +104,9 @@ td
 .th_mois_encours {
 	color: blue;
 }
+
+.total_jour {
+	background-color: #BABAC5;
+	text-align: right !important;
+	color: white;
+}

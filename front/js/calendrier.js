@@ -40,7 +40,6 @@ $(document).ready(function() {
 	$( function() {
 		$( "#modeHisto" ).checkboxradio();
   } );
-	
 });
 
 var tabJour=["D", 'L', 'M', 'M', 'J', 'V', 'S'];
@@ -135,14 +134,15 @@ function alimenterPeriodes() {
 				}
 			}
 			peuplerCalendrier(tabAnnees);
-			alimenteJours(tabAnnees['debut'], tabAnnees['fin']);
-			alimenteJoursFeries(tabAnnees['debut'], tabAnnees['fin']);
+			alimenteJoursNontravailles(tabAnnees['debut'], tabAnnees['fin']);
+			//alimenteJours(tabAnnees['debut'], tabAnnees['fin']);
+			//alimenteJoursFeries(tabAnnees['debut'], tabAnnees['fin']);
 			traiteWeekendEvent();
 		}
 	});
 }
 
-function getNbJoursOuvres(dateDeb, dateFin) {
+/*function getNbJoursOuvres(dateDeb, dateFin) {
 	 //var debut=jr_get_value('date_debut');
   //var fin=jr_get_value('date_fin');
  	//
@@ -182,7 +182,7 @@ function getNbJoursOuvres(dateDeb, dateFin) {
     totalBusinessDays=totalBusinessDays+1;
      
     return totalBusinessDays;
-}
+}*/
 
 
 function traiteWeekendEvent() {
@@ -225,25 +225,25 @@ function traiteWeekendEvent() {
 function peuplerCalendrier(tabAnnees) {
 	var anneeDeb = Number(tabAnnees['debut']);
 	var anneeFin = Number(tabAnnees['fin']);
-	
-	for (var annee=anneeDeb; annee<=anneeFin; annee++){
+	var annee='';
+	for (annee=anneeDeb; annee<=anneeFin; annee++){
 		
 		//génère la première ligne du tableau
-		$("#tableauCalendrier").append(genereLigneNumerosJours());
+		$("#tableauCalendrier").append(genereLigneNumerosJours(annee==anneeDeb?'':annee));
 		$("#tableauCalendrier").append(premiereLigneAnnee(annee));
 		
 		for (var mois=1; mois<=11; mois++){
 			$("#tableauCalendrier").append(ajouteMois(annee, mois));
 		}
 	}
-	$("#tableauCalendrier").append(genereLigneNumerosJours());
+	$("#tableauCalendrier").append(genereLigneNumerosJours(annee));
 }
 
 /*********************************
  * génère la ligne de numéros de
  * jour
  *********************************/
-function genereLigneNumerosJours(){
+function genereLigneNumerosJours(annee){
 	var ligne=$("<tr/>");
 	ligne.append($("<td/><td/>"));
 	for(var i=1; i<=31; i++) {
@@ -254,6 +254,11 @@ function genereLigneNumerosJours(){
 		}
 		var casetab = $("<th class="+classe+"/>").text(i);
 		ligne.append( casetab );
+	}
+	if(annee=='') {
+		ligne.append('<th>JT</th>');
+	} else {
+		ligne.append('<th id=jt-'+(annee-1)+'></th>');
 	}
 	return ligne;
 }
@@ -303,8 +308,76 @@ function ajouteJoursMois(ligne, annee, mois){
 			ligne.append($("<td id=\""+annee+'-'+pad(mois+1, 2, '0')+'-'+pad(j, 2, '0')+"\" jour=\""+tabJour[jour]+ "\" type=\"jour\" typePeriode=\"inactif\"/>").append('<img src="application/images/'+tabJour[jour]+'.png"/>'));//text(tabJour[jour])); //""));
 			//ligne.append($("<td id=\""+annee+'-'+pad(mois+1, 2, '0')+'-'+pad(j, 2, '0')+"\" jour=\""+tabJour[jour]+ "\" type=\"jour\" typePeriode=\"inactif\">"+tabJour[jour]+"</td>"));
 			//.append('<img src="application/images/'+tabJour[jour]+'.png"/>'));//text(tabJour[jour])); //""));
+		} else {
+			ligne.append($('<td></td>'));
 		}
 	}
+	ligne.append($("<td class=\"total_jour\" id=\"jt-"+annee+'-'+pad(mois+1, 2, '0')+"\"/>"));
+}
+
+
+function initJoursTravailles(anneeDebutPeriode, anneeFinPeriode) {
+	setTimeout(function(){
+		;
+	}, 2000);	
+	var encours=anneeDebutPeriode;
+	var total=0;
+	while(encours<=anneeFinPeriode) {
+		for(i=1; i<=12; i++) {
+			total+=calculJoursTravailles(encours+'-'+pad(i, 2, '0'));
+			
+		}
+		//calculJoursTravaillesAnnee(encours);
+		$("th[id='jt-"+encours+"']").text(total);
+		total=0;
+		encours++;
+	}
+	
+}
+
+
+function calculJoursTravailles(mois) {
+	var total=0;
+	$.each($("td[id^='" + mois + "']"), function(index, element) {
+		var td = $(element); // Convertir l'élément DOM en objet jQuery pour faciliter l'accès aux attributs
+		var typeperiode = td.attr('typeperiode'); // ou td.data('typeperiode') selon comment il est stocké
+
+
+		//si jour inactif autre que samedi et dimanche 
+		if(td.attr('typeperiode')== 'inactif' && td.attr('jour')!='S' && td.attr('jour')!='D') {
+			total+=1;
+		}
+		// ou demi-journée
+		if (typeperiode.endsWith('2')) {
+			total += 0.5;
+		}
+		
+	});
+	
+	$("#jt-"+mois).text(total); //('<span>'+total+'</span>');
+	
+	return total;
+}
+
+function calculJoursTravaillesAnnee(annee) {
+	var total=0;
+	$.each($("td[id^='jt-" + annee + "']"), function(index, element) {
+		var td = $(element); // Convertir l'élément DOM en objet jQuery pour faciliter l'accès aux attributs
+		//var typeperiode = td.attr('typeperiode'); // ou td.data('typeperiode') selon comment il est stocké
+
+		total+=Number(td.html());
+		//si jour inactif autre que samedi et dimanche 
+		/*if(td.attr('typeperiode')== 'inactif' && td.attr('jour')!='S' && td.attr('jour')!='D') {
+			total+=1;
+		}
+		// ou demi-journée
+		if (typeperiode.endsWith('2')) {
+			total += 0.5;
+		}*/
+		
+	});
+	
+	$("#jt-"+annee).text(total); //('<span>'+total+'</span>');
 }
 
 
@@ -361,6 +434,8 @@ function modifieCase(idCase, typeJour){
 	} else {
 		majCaseJour(idCase, typeJour);
 	}
+	calculJoursTravailles(idCase.substring(0,7));
+	calculJoursTravaillesAnnee(idCase.substring(0,4));
 }
 
 
@@ -483,11 +558,42 @@ function majPeriodes() {
 	});
 }
 
+
+function alimenteJoursNontravailles(anneeDebutPeriode, anneeFinPeriode) {
+	var params='anneeDebutPeriode='+anneeDebutPeriode+'&anneeFinPeriode='+anneeFinPeriode;
+	$.ajax({
+		url: "index.php?domaine=jour&service=getlisteglobale",
+		async: true,
+		dataType: 'json',
+		data: params,
+		success : function(resultat, statut, erreur){
+			var nb=resultat.racine.ListeJours.totalLigne;
+			var tabJson = resultat.racine.ListeJours.data;
+			for(i=0; i<nb; i++) {
+				switch(tabJson[i].type) {
+				case 'ferie':
+					var caseId = tabJson[i].date;
+					$( "#"+caseId ).removeClass();
+					$( "#"+caseId ).addClass('jour_tableau jour_ferie');
+					$( "#"+caseId ).attr('typeperiode', 'ferie');
+					break;
+				default: 
+					var caseId = tabJson[i].date;
+					var typePeriode = tabJson[i].type;
+					coloreCase(caseId, typePeriode);
+				}
+			}
+			initJoursTravailles(anneeDebutPeriode, anneeFinPeriode);
+		}
+	});
+}
+
+
 /*********************************
  * recherche et affiche les  
  * jours de congés/rtt
  *********************************/
-function alimenteJours(anneeDebutPeriode, anneeFinPeriode) {
+/*function alimenteJours(anneeDebutPeriode, anneeFinPeriode) {
 	var params='anneeDebutPeriode='+anneeDebutPeriode+'&anneeFinPeriode='+anneeFinPeriode;
 	$.ajax({
 		url: "index.php?domaine=jour&service=getListe",
@@ -502,9 +608,10 @@ function alimenteJours(anneeDebutPeriode, anneeFinPeriode) {
 				var typePeriode = tabJson[i].typePeriode;
 				coloreCase(caseId, typePeriode);
 			}
+			//initJoursTravailles(anneeDebutPeriode, anneeFinPeriode);
 		}
 	});
-}
+}*/
 
 /*********************************
  * recherche et affiche les  
@@ -524,7 +631,9 @@ function alimenteJoursFeries(anneeDebutPeriode, anneeFinPeriode) {
 				var caseId = tabJson[i].dateFerie;
 				$( "#"+caseId ).removeClass();
 				$( "#"+caseId ).addClass('jour_tableau jour_ferie');
+				$( "#"+caseId ).attr('typeperiode', 'ferie');
 			}
+			initJoursTravailles(anneeDebutPeriode, anneeFinPeriode);
 		}
 	});
 }

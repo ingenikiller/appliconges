@@ -5,6 +5,7 @@
 			<service name="create"   classe="GestionJourService" methode="create"   isPrivee="true" render="json"/>
 			<service name="delete"   classe="GestionJourService" methode="delete"   isPrivee="true" render="json"/>
 			<service name="getListe" classe="GestionJourService" methode="getListe" isPrivee="true" render="json"/>
+			<service name="getlisteglobale" classe="GestionJourService" methode="getListeGlobale" isPrivee="true" render="json"/>
 			<service name="update"   classe="GestionJourService" methode="update"   isPrivee="true" render="json"/>
 		</domaine>
 		<domaine name="jourferie">
