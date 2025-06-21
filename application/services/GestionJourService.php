@@ -31,7 +31,7 @@ select typeperiode as type, jour as date from jourconges where jour BETWEEN '202
 		$listeJours->request("
 			select 'ferie' as type, dateFerie as date from jourferie where dateferie BETWEEN CONCAT($anneeDebutPeriode,'-01-01') AND CONCAT($anneeFinPeriode,'-12-31')
 			union
-			select typeperiode as type, jour as date from jourconges where jour BETWEEN CONCAT($anneeDebutPeriode,'-01-01') AND CONCAT($anneeFinPeriode,'-12-31') and utimod=".$p_contexte->getUser()->userId
+			select typeperiode as type, jour as date from jourconges where jour BETWEEN CONCAT($anneeDebutPeriode,'-01-01') AND CONCAT($anneeFinPeriode,'-12-31') and user=".$p_contexte->getUser()->userId
 		);
 		//$l_clause="jour BETWEEN CONCAT($anneeDebutPeriode,'-01-01') AND CONCAT($anneeFinPeriode,'-12-31') and user=".$p_contexte->getUser()->userId;;
 		//$listeJour = new ListObject('ListeJour');
