@@ -1,19 +1,18 @@
 <?php
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+namespace Application\Services;
 
-/**
- * Description of GenrateurService
- *
- * @author ingeni
- */
+use Core\ContextExecution;
+use Core\ListDynamicObject;
+use Core\ListObject;
+use Core\ServiceStub;
+
+use Application\Objects\Jourconges;
+
 class GestionJourService extends ServiceStub{
     //put your code here
     
-	public function getListe($p_contexte){
+	public function getListe(ContextExecution $p_contexte){
 		$anneeDebutPeriode=$p_contexte->m_dataRequest->getData('anneeDebutPeriode');
 		$anneeFinPeriode=$p_contexte->m_dataRequest->getData('anneeFinPeriode');
 		$l_clause="jour BETWEEN CONCAT($anneeDebutPeriode,'-01-01') AND CONCAT($anneeFinPeriode,'-12-31') and user=".$p_contexte->getUser()->userId;;
@@ -24,7 +23,7 @@ class GestionJourService extends ServiceStub{
 	select 'ferie' as type, dateFerie as date from jourferie where dateferie BETWEEN '2025-01-01' and '2025-12-31'
 union
 select typeperiode as type, jour as date from jourconges where jour BETWEEN '2025-01-01' and '2025-12-31' and utimod=2*/
-	public function getListeGlobale($p_contexte){
+	public function getListeGlobale(ContextExecution $p_contexte){
 		$anneeDebutPeriode=$p_contexte->m_dataRequest->getData('anneeDebutPeriode');
 		$anneeFinPeriode=$p_contexte->m_dataRequest->getData('anneeFinPeriode');
 		$listeJours = new ListDynamicObject('ListeJours');

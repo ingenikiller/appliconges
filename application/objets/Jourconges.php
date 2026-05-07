@@ -1,4 +1,9 @@
 <?php
+
+namespace Application\Objects;
+
+use Core\SavableObject;
+
 class Jourconges extends SavableObject {
 	static private $key='user,jour';
 	public function getPrimaryKey(){

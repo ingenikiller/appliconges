@@ -1,4 +1,9 @@
 <?php
+
+namespace Application\Objects;
+
+use Core\SavableObject;
+
 class Jourferie extends SavableObject {
 	static private $key='annee,nom';
 	public function getPrimaryKey(){

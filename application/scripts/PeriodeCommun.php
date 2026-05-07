@@ -1,5 +1,11 @@
 <?php
 
+namespace Application\Scripts;
+
+use Core\ListDynamicObject;
+
+use Application\Objects\Periode;
+
 class PeriodeCommun {
     
     /*************************************************************

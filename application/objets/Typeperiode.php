@@ -1,4 +1,9 @@
 <?php
+
+namespace Application\Objects;
+
+use Core\SavableObject;
+
 class Typeperiode extends SavableObject {
 	static private $key='typePeriode';
 	public function getPrimaryKey(){
@@ -7,6 +12,8 @@ class Typeperiode extends SavableObject {
 	public $typePeriode=NULL;
 	
 	public $duree;
+	
+	public $principale;
 	
 }
 ?>

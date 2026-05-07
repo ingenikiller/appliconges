@@ -1,4 +1,9 @@
 <?php
+
+namespace Application\Objects;
+
+use Core\SavableObject;
+
 class Users extends SavableObject {
 	static private $key='userId';
 	public function getPrimaryKey(){
@@ -9,12 +14,6 @@ class Users extends SavableObject {
 	public $nom;
 	
 	public $motDePasse;
-	
-	public $datecre;
-	
-	public $datemod;
-	
-	public $utimod;
 	
 }
 ?>

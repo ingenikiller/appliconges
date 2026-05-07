@@ -1,5 +1,9 @@
 <?php
 
+namespace Application\Scripts;
+
+use Core\ListDynamicObject;
+
 class UtilsRequete {
 	
 	public static function requeteListe($p_requete) {

@@ -1,8 +1,19 @@
 <?php
 
+namespace Application\Services;
+
+use Core\ContextExecution;
+use Core\ListDynamicObject;
+use Core\ListObject;
+use Core\ServiceStub;
+
+use Application\Scripts\UtilsRequete;
+
+use Application\Objects\JourFerie;
+
 class GestionJourFerieService extends ServiceStub {
 
-	public function getListePeriode($p_contexte){
+	public function getListePeriode(ContextExecution $p_contexte){
 		$anneeDebutPeriode=$p_contexte->m_dataRequest->getData('anneeDebutPeriode');
 		$anneeFinPeriode=$p_contexte->m_dataRequest->getData('anneeFinPeriode');
 		$l_clause="dateFerie BETWEEN CONCAT($anneeDebutPeriode,'-01-01') AND CONCAT($anneeFinPeriode,'-12-31')";
@@ -11,7 +22,7 @@ class GestionJourFerieService extends ServiceStub {
 		$p_contexte->addDataBlockRow($listeJour);
 	}
 	
-	public function getListe($p_contexte){
+	public function getListe(ContextExecution $p_contexte){
 		$page=1;
         $numeroPage=$p_contexte->m_dataRequest->getData('numeroPage');
         if($numeroPage!=null && $numeroPage!=''){
@@ -22,22 +33,22 @@ class GestionJourFerieService extends ServiceStub {
 		$p_contexte->addDataBlockRow($listeJour);
 	}
 
-	public function delete($p_contexte){
+	public function delete(ContextExecution $p_contexte){
 		$date=$p_contexte->m_dataRequest->getData('date');
 		$jour = new JourFerie();
-		$jour->dateFerrie = $date;
+		$jour->dateFerie = $date;
 		$jour->load();
 		$jour->delete();
 	}
 
-	public function getListeAnnee ($p_contexte) {
+	public function getListeAnnee (ContextExecution $p_contexte) {
 		$requete='SELECT DISTINCT annee FROM jourferie WHERE annee >= YEAR(CURDATE()) - 1 ORDER BY annee DESC ';
 		$listePeriodes = new ListDynamicObject('ListeAnnees');
         $listePeriodes->request($requete);
         $p_contexte->addDataBlockRow($listePeriodes);
 	}
 	
-	public function getListeJourAnnee($p_contexte){
+	public function getListeJourAnnee(ContextExecution $p_contexte){
 		$annee=$p_contexte->m_dataRequest->getData('annee');
 		$l_clause="dateFerie LIKE CONCAT($annee, '%') ORDER BY dateFerie";
 		$listeJour = new ListObject('ListeJourFerie');
@@ -45,7 +56,7 @@ class GestionJourFerieService extends ServiceStub {
 		$p_contexte->addDataBlockRow($listeJour);
 	}
 	
-	public function creerJourAnnee($p_contexte) {
+	public function creerJourAnnee(ContextExecution $p_contexte) {
 		$anneeCreation=$p_contexte->m_dataRequest->getData('anneeacreer');
 		$derAnnee = $anneeCreation - 1;
 		
@@ -62,7 +73,7 @@ class GestionJourFerieService extends ServiceStub {
 		}
 	}
 	
-	public function majJoursFeries($p_contexte) {
+	public function majJoursFeries(ContextExecution $p_contexte) {
 		$annee=$p_contexte->m_dataRequest->getData('annee');
 		$i=0;
 		while($p_contexte->m_dataRequest->getData('nom-'.$i) != null) {
@@ -77,7 +88,7 @@ class GestionJourFerieService extends ServiceStub {
 		$p_contexte->ajoutReponseAjaxOK();
 	}
 	
-	public function update($p_contexte){
+	public function update(ContextExecution $p_contexte){
 	    $jourFerieJson=$p_contexte->m_dataRequest->getDataJson('jourFerie');
 	    /*$nom=$p_contexte->m_dataRequest->getData('nom');
 		$annee=$p_contexte->m_dataRequest->getData('annee');

@@ -1,15 +1,16 @@
 <?php
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+namespace Application\Services;
 
-/**
- * Description of GenrateurService
- *
- * @author ingeni
- */
+use Core\ContextExecution;
+use Core\ListDynamicObject;
+use Core\ReponseAjax;
+use Core\ServiceStub;
+
+use Application\Objects\Periode;
+
+use Application\Scripts\PeriodeCommun;
+
 class GestionPeriodeService extends ServiceStub {
 
 	public function getListeActive($p_contexte){
