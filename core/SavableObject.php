@@ -60,7 +60,7 @@ abstract class SavableObject extends Objects {
 
         foreach ($primaryKey as $value) {
             $property = $reflect->getProperty($value);
-            $tab[] = $value . '=' . self::$_pdo->quote($property->getValue($this)); //'=\'' . $property->getValue($this) . '\'';
+            $tab[] = $value . '=' . self::$_pdo->quote($property->getValue($this).''); //'=\'' . $property->getValue($this) . '\'';
         }
         return $tab;
     }
@@ -114,7 +114,7 @@ abstract class SavableObject extends Objects {
 					$champs[] = $col;
 					if(stripos($champDefinition['Type'], 'varchar') === 0) {
 						//type VARCHAR
-						$values[] = trim(self::$_pdo->quote($val));
+						$values[] = trim(self::$_pdo->quote($val.''));
 					} else if(stripos($champDefinition['Type'], 'longtext') === 0) {
 						//type LOnGTEXT
 						$values[] = trim(self::$_pdo->quote($val));

@@ -3,9 +3,9 @@
 namespace Application\Scripts;
 
 use Core\ContextExecution;
-use Core\FunctionnalException;
 use Core\ListObject;
 use Core\MyLogger;
+use Core\FunctionnalException;
 
 class CommunUser {
 	

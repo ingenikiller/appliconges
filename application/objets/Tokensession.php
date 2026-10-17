@@ -9,11 +9,17 @@ class Tokensession extends SavableObject {
 	public function getPrimaryKey(){
 		return self::$key;
 	}
-	public $userid=NULL;
+	public $token=NULL;
 	
-	public $token;
+	public $userid;
 	
 	public $startdate;
+	
+	public $datecre;
+	
+	public $datemod;
+	
+	public $utimod;
 	
 }
 ?>
